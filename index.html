@@ -1,1258 +1,922 @@
 
 <!DOCTYPE html>
-<html lang="en" dir="ltr" id="html-root">
+<html lang="ar" dir="ltr">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Glamoura</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet"/>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --cream:#f5f0eb;--beige:#e8ddd3;--warm-white:#faf8f5;
-  --black:#0d0d0d;--charcoal:#1a1a1a;
-  --gold:#b5996a;--gold-light:#d4b896;
-  --text-muted:#6b6460;--border:rgba(0,0,0,0.1);
-}
-html{scroll-behavior:smooth}
-body{font-family:'Montserrat',sans-serif;background:var(--warm-white);color:var(--black);overflow-x:hidden}
-body.ar{font-family:'Tajawal',sans-serif}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Glamoura — Book Your Experience</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* PAGE TRANSITION */
-.page{display:none;min-height:100vh;animation:fadeIn .5s ease}
-.page.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    :root {
+      --cream: #f5f0eb;
+      --beige: #e8ddd3;
+      --warm-white: #faf8f5;
+      --black: #0d0d0d;
+      --charcoal: #1a1a1a;
+      --gold: #b5996a;
+      --gold-light: #d4b896;
+      --text-muted: #6b6460;
+      --border: rgba(0,0,0,0.1);
+    }
 
-/* PAGE TRANSITION OVERLAY */
-#transition-overlay{
-  position:fixed;inset:0;background:var(--black);
-  z-index:9999;opacity:0;pointer-events:none;
-  transition:opacity .3s ease;
-}
-#transition-overlay.show{opacity:1;pointer-events:all}
+    html { scroll-behavior: smooth; }
 
-/* ══════════ NAV ══════════ */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:20px 60px;transition:background .3s;
-}
-nav.dark{background:rgba(13,13,13,.96);backdrop-filter:blur(12px)}
-nav.light{background:rgba(250,248,245,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;letter-spacing:4px;text-transform:uppercase;cursor:pointer}
-nav.dark .nav-logo{color:#fff}
-nav.light .nav-logo{color:var(--black)}
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--warm-white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
 
-.nav-right{display:flex;align-items:center;gap:14px;position:relative}
+    /* ─── PAGE SYSTEM ─── */
+    .page { display: none; min-height: 100vh; animation: fadeIn 0.6s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Language toggle */
-.lang-toggle{
-  display:flex;align-items:center;gap:2px;
-  border:1px solid rgba(255,255,255,.25);border-radius:20px;overflow:hidden;
-  font-size:10px;letter-spacing:1px;
-}
-nav.light .lang-toggle{border-color:rgba(0,0,0,.15)}
-.lang-btn{
-  padding:5px 11px;cursor:pointer;background:transparent;border:none;
-  font-family:inherit;font-size:10px;letter-spacing:1px;transition:all .2s;
-}
-nav.dark .lang-btn{color:rgba(255,255,255,.5)}
-nav.dark .lang-btn.active{background:var(--gold);color:#fff}
-nav.light .lang-btn{color:rgba(0,0,0,.4)}
-nav.light .lang-btn.active{background:var(--gold);color:#fff}
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 60px;
+      mix-blend-mode: normal;
+    }
+    nav.dark { background: rgba(13,13,13,0.95); backdrop-filter: blur(12px); }
+    nav.light { background: rgba(250,248,245,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
 
-/* Profile icon */
-.profile-btn{
-  width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.3);
-  background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:all .2s;position:relative;
-}
-nav.light .profile-btn{border-color:rgba(0,0,0,.2)}
-nav.dark .profile-btn svg{stroke:#fff}
-nav.light .profile-btn svg{stroke:var(--black)}
-.profile-btn:hover{background:var(--gold);border-color:var(--gold)}
-.profile-btn:hover svg{stroke:#fff !important}
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 600; letter-spacing: 4px;
+      text-transform: uppercase; cursor: pointer;
+    }
+    nav.dark .nav-logo { color: #fff; }
+    nav.light .nav-logo { color: var(--black); }
 
-/* Profile avatar (logged in) */
-.profile-btn.logged-in{background:var(--gold);border-color:var(--gold)}
-.profile-btn.logged-in svg{stroke:#fff}
+    .nav-book {
+      font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+      padding: 10px 28px; border: 1px solid currentColor;
+      background: transparent; cursor: pointer; font-family: 'Montserrat', sans-serif;
+      transition: all 0.3s;
+    }
+    nav.dark .nav-book { color: #fff; }
+    nav.dark .nav-book:hover { background: #fff; color: var(--black); }
+    nav.light .nav-book { color: var(--black); }
+    nav.light .nav-book:hover { background: var(--black); color: #fff; }
 
-/* Dropdown */
-.profile-dropdown{
-  position:absolute;top:calc(100% + 10px);right:0;
-  background:#fff;border:1px solid var(--border);min-width:200px;
-  box-shadow:0 8px 32px rgba(0,0,0,.12);
-  opacity:0;pointer-events:none;transform:translateY(-6px);
-  transition:all .2s;z-index:300;
-}
-.profile-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0)}
-.dropdown-item{
-  padding:14px 20px;cursor:pointer;font-size:12px;
-  letter-spacing:.5px;border-bottom:1px solid var(--border);
-  transition:background .15s;display:block;width:100%;background:transparent;
-  border:none;text-align:left;font-family:inherit;color:var(--black);
-}
-body.ar .dropdown-item{text-align:right}
-.dropdown-item:last-child{border-bottom:none}
-.dropdown-item:hover{background:var(--cream)}
-.dropdown-item.gold{color:var(--gold);font-weight:500}
-.dropdown-divider{height:1px;background:var(--border)}
+    /* ─── LANDING PAGE ─── */
+    #page-home { background: var(--black); }
 
-/* ══════════ PROGRESS BAR ══════════ */
-.progress-bar{
-  position:fixed;top:72px;left:0;right:0;z-index:150;
-  background:rgba(0,0,0,.04);height:3px;
-}
-nav.dark ~ .progress-bar{background:rgba(255,255,255,.08)}
-.progress-fill{height:100%;background:var(--gold);transition:width .4s ease}
-.progress-steps{
-  display:flex;justify-content:center;gap:40px;
-  padding:12px 0 0;background:transparent;
-}
-.progress-step{
-  font-size:9px;letter-spacing:2px;text-transform:uppercase;
-  color:var(--text-muted);display:flex;align-items:center;gap:6px;
-}
-.progress-step.active{color:var(--gold)}
-.progress-step.done{color:var(--gold);opacity:.6}
-.step-dot{
-  width:6px;height:6px;border-radius:50%;background:var(--border);
-}
-.progress-step.active .step-dot,.progress-step.done .step-dot{background:var(--gold)}
+    .hero {
+      position: relative; height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
 
-/* ══════════ BACK BUTTON ══════════ */
-.back-btn{
-  display:inline-flex;align-items:center;gap:8px;
-  background:transparent;border:none;cursor:pointer;
-  font-size:10px;letter-spacing:2px;text-transform:uppercase;
-  color:var(--text-muted);font-family:inherit;
-  padding:0 60px;margin-bottom:10px;
-  transition:color .2s;
-}
-.back-btn:hover{color:var(--gold)}
-.back-btn svg{transition:transform .2s}
-.back-btn:hover svg{transform:translateX(-3px)}
-body.ar .back-btn{flex-direction:row-reverse;padding:0 60px}
-body.ar .back-btn:hover svg{transform:translateX(3px)}
+    .hero-left {
+      position: relative; overflow: hidden;
+      display: flex; align-items: flex-end; padding: 80px 60px;
+    }
+    .hero-left img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; filter: brightness(0.55);
+      transition: transform 8s ease;
+    }
+    .hero:hover .hero-left img { transform: scale(1.04); }
 
-/* ══════════ HERO ══════════ */
-#page-home{background:var(--black)}
-.hero{position:relative;height:100vh;display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
-.hero-left{position:relative;overflow:hidden}
-.hero-left img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:transform 8s ease}
-.hero:hover .hero-left img{transform:scale(1.04)}
-.hero-right{display:grid;grid-template-rows:1fr 1fr;overflow:hidden}
-.hero-right-top,.hero-right-bottom{position:relative;overflow:hidden}
-.hero-right-top img,.hero-right-bottom img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:transform 8s ease}
-.hero:hover .hero-right-top img,.hero:hover .hero-right-bottom img{transform:scale(1.04)}
-.hero-text{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#fff;z-index:10;padding:40px}
-.hero-eyebrow{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-light);margin-bottom:24px}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,92px);font-weight:300;line-height:1;letter-spacing:-1px;margin-bottom:20px}
-body.ar .hero-title{font-family:'Tajawal',sans-serif;font-weight:300;letter-spacing:0}
-.hero-title em{font-style:italic;color:var(--gold-light)}
-.hero-sub{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:48px}
-.hero-cta{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
-.scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.35);font-size:9px;letter-spacing:3px;text-transform:uppercase;z-index:10}
-.scroll-line{width:1px;height:44px;background:rgba(255,255,255,.15);position:relative;overflow:hidden}
-.scroll-line::after{content:'';position:absolute;top:-100%;width:1px;height:100%;background:var(--gold-light);animation:scrollAnim 2s ease infinite}
-@keyframes scrollAnim{to{top:200%}}
+    .hero-right {
+      display: grid; grid-template-rows: 1fr 1fr; overflow: hidden;
+    }
+    .hero-right-top, .hero-right-bottom {
+      position: relative; overflow: hidden;
+    }
+    .hero-right-top img, .hero-right-bottom img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; filter: brightness(0.55);
+      transition: transform 8s ease;
+    }
+    .hero:hover .hero-right-top img,
+    .hero:hover .hero-right-bottom img { transform: scale(1.04); }
 
-/* BUTTONS */
-.btn-primary{background:var(--gold);color:#fff;border:none;padding:15px 44px;font-family:inherit;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .3s}
-.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px)}
-.btn-outline{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);padding:15px 44px;font-family:inherit;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .3s}
-.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.05)}
- /* ══════════ ABOUT ══════════ */
-.about-strip{background:var(--cream);padding:100px 120px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
-.about-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
-.about-heading{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.5vw,48px);font-weight:300;line-height:1.2;margin-bottom:24px}
-body.ar .about-heading{font-family:'Tajawal',sans-serif;font-weight:300}
-.about-heading em{font-style:italic}
-.about-body{font-size:13px;line-height:2;color:var(--text-muted);font-weight:300}
-.about-right{display:flex;flex-direction:column;gap:40px}
-.about-stat{border-top:1px solid var(--border);padding-top:24px}
-.about-stat-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--black);line-height:1}
-.about-stat-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-top:4px}
+    .hero-text {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center; color: #fff; z-index: 10;
+      padding: 40px;
+    }
 
-/* ══════════ SECTION HEADER ══════════ */
-.section-header{text-align:center;padding:60px 40px 32px}
-.section-label{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
-.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,62px);font-weight:300;line-height:1.1}
-body.ar .section-title{font-family:'Tajawal',sans-serif;font-weight:300}
-.section-title em{font-style:italic}
+    .hero-eyebrow {
+      font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 24px;
+      font-weight: 400;
+    }
 
-/* ══════════ SALONS ══════════ */
-#page-salons{background:var(--warm-white);padding-top:90px}
-.salons-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:0 60px 80px}
-.salon-card{position:relative;height:500px;overflow:hidden;cursor:pointer;background:var(--black)}
-.salon-card img{width:100%;height:100%;object-fit:cover;filter:brightness(.42);transition:all .6s ease}
-.salon-card:hover img{filter:brightness(.28);transform:scale(1.05)}
-.salon-card-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:40px;color:#fff}
-.salon-number{font-family:'Cormorant Garamond',serif;font-size:68px;font-weight:300;color:rgba(255,255,255,.07);line-height:1;position:absolute;top:18px;right:28px}
-.salon-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-light);margin-bottom:10px}
-.salon-name{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;margin-bottom:6px}
-body.ar .salon-name{font-family:'Tajawal',sans-serif;font-weight:300}
-.salon-location{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px;letter-spacing:.5px}
-.salon-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:24px;max-height:0;overflow:hidden;transition:max-height .4s}
-.salon-card:hover .salon-desc{max-height:80px}
-.salon-select-btn{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.25);padding:11px 22px;background:transparent;font-family:inherit;cursor:pointer;transition:all .3s;opacity:0;transform:translateY(8px)}
-.salon-card:hover .salon-select-btn{opacity:1;transform:translateY(0);border-color:var(--gold-light);color:var(--gold-light)}
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 7vw, 96px);
+      font-weight: 300; line-height: 1.0;
+      letter-spacing: -1px; margin-bottom: 20px;
+    }
+ .hero-title em { font-style: italic; color: var(--gold-light); }
 
-/* ══════════ SERVICES ══════════ */
-#page-services{background:var(--black);padding-top:90px}
-#page-services .section-title{color:#fff}
-#page-services .section-label{color:var(--gold-light)}
-.services-chosen{text-align:center;padding:0 40px 48px;font-family:'Cormorant Garamond',serif;font-size:18px;color:rgba(255,255,255,.45);font-style:italic}
-.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;padding:0 60px 80px}
-.service-card{position:relative;height:380px;overflow:hidden;cursor:pointer;background:var(--charcoal)}
-.service-card img{width:100%;height:100%;object-fit:cover;filter:brightness(.32);transition:all .6s}
-.service-card:hover img{filter:brightness(.2);transform:scale(1.04)}
-.service-card-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#fff;padding:40px}
-.service-icon{font-size:30px;margin-bottom:16px;opacity:.6;transition:all .3s}
-.service-card:hover .service-icon{opacity:1;transform:scale(1.1)}
-.service-name{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;margin-bottom:6px}
-body.ar .service-name{font-family:'Tajawal',sans-serif;font-weight:300}
-.service-price{font-size:12px;color:var(--gold-light);letter-spacing:1px;margin-bottom:10px}
-.service-detail{font-size:11px;color:rgba(255,255,255,.4);line-height:1.8;margin-bottom:24px;max-height:0;overflow:hidden;transition:max-height .4s}
-.service-card:hover .service-detail{max-height:60px}
-.service-pick-btn{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);border:1px solid var(--gold-light);padding:11px 30px;background:transparent;font-family:inherit;cursor:pointer;transition:all .3s;opacity:0;transform:translateY(8px)}
-.service-card:hover .service-pick-btn{opacity:1;transform:translateY(0)}
-.service-pick-btn:hover{background:var(--gold);border-color:var(--gold);color:#fff}
+    .hero-sub {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.55); margin-bottom: 48px;
+      font-weight: 300;
+    }
 
-/* ══════════ BOOKING ══════════ */
-#page-booking{background:var(--cream);padding-top:90px}
-#page-booking .section-label{color:var(--gold)}
-.booking-layout{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0 60px 80px}
-.booking-summary{background:var(--black);color:#fff;padding:60px 50px;display:flex;flex-direction:column;justify-content:space-between}
-.summary-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold-light);margin-bottom:36px}
-.summary-item{border-bottom:1px solid rgba(255,255,255,.07);padding:18px 0}
-.summary-item-key{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:6px}
-.summary-item-val{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300}
-.booking-quote{font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:rgba(255,255,255,.25);line-height:1.8;margin-top:36px}
-.booking-form-wrap{background:#fff;padding:60px 50px}
-.form-section-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;margin-bottom:32px}
-body.ar .form-section-title{font-family:'Tajawal',sans-serif}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.form-group{margin-bottom:22px}
-label{display:block;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
-input,select{width:100%;padding:13px 0;font-size:14px;background:transparent;border:none;border-bottom:1px solid var(--border);font-family:inherit;color:var(--black);outline:none;transition:border-color .3s;appearance:none;font-weight:300}
-input:focus,select:focus{border-bottom-color:var(--gold)}
-input::placeholder{color:rgba(0,0,0,.2)}
-.select-wrap{position:relative}
-.select-wrap::after{content:'↓';position:absolute;right:4px;top:50%;transform:translateY(-50%);color:var(--gold);pointer-events:none;font-size:12px}
-body.ar .select-wrap::after{right:auto;left:4px}
-.time-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.time-slot{padding:9px 4px;text-align:center;border:1px solid var(--border);cursor:pointer;font-size:11px;font-family:inherit;font-weight:300;color:var(--text-muted);transition:all .2s;background:transparent}
-.time-slot:hover{border-color:var(--gold);color:var(--gold)}
-.time-slot.selected{background:var(--gold);border-color:var(--gold);color:#fff}
-.time-slot.disabled{opacity:.25;cursor:default;pointer-events:none}
-.divider{height:1px;background:var(--border);margin:28px 0}
-.submit-btn{width:100%;padding:17px;background:var(--black);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:11px;letter-spacing:3px;text-transform:uppercase;transition:all .3s}
-.submit-btn:hover{background:var(--gold);transform:translateY(-2px)}
+    .hero-cta {
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    }
 
-/* ══════════ CONFIRM ══════════ */
-#page-confirm{background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:120px 40px 80px;color:#fff}
-.confirm-icon{width:70px;height:70px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 36px;font-size:26px;animation:popIn .5s ease}
-@keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
-.confirm-label{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold-light);margin-bottom:18px}
-.confirm-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,5vw,68px);font-weight:300;line-height:1.1;margin-bottom:16px}
-body.ar .confirm-title{font-family:'Tajawal',sans-serif;font-weight:300}
-.confirm-title em{font-style:italic;color:var(--gold-light)}
-.confirm-ref{font-size:11px;color:var(--gold);letter-spacing:2px;margin-bottom:16px}
-.confirm-sub{font-size:13px;color:rgba(255,255,255,.4);line-height:1.9;font-weight:300;max-width:460px;margin:0 auto 44px}
-.confirm-details{display:flex;gap:50px;justify-content:center;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:36px 60px;margin-bottom:44px;flex-wrap:wrap}
-.confirm-detail-item{text-align:center}
-.confirm-detail-key{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:8px}
-.confirm-detail-val{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300}
-.confirm-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
-.btn-cal{background:transparent;color:var(--gold-light);border:1px solid var(--gold-light);padding:13px 36px;cursor:pointer;font-family:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:all .3s}
-.btn-cal:hover{background:var(--gold);border-color:var(--gold);color:#fff}
-.btn-home{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.2);padding:13px 36px;cursor:pointer;font-family:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:all .3s}
-.btn-home:hover{border-color:rgba(255,255,255,.5)}
+    .btn-primary {
+      background: var(--gold); color: #fff;
+      border: none; padding: 16px 44px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
 
-/* ══════════ AUTH PAGES ══════════ */
-.auth-page{background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:100px 24px 60px;color:#fff}
-.auth-logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;letter-spacing:6px;text-transform:uppercase;color:#fff;margin-bottom:8px}
-.auth-welcome{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:48px}
-.auth-box{width:100%;max-width:420px}
-.auth-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;margin-bottom:32px;text-align:center}
-body.ar .auth-title{font-family:'Tajawal',sans-serif;font-weight:300}
-.auth-group{margin-bottom:24px}
-.auth-group label{display:block;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px}
-.auth-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.15);padding:12px 0;color:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .3s;font-weight:300}
-.auth-input:focus{border-bottom-color:var(--gold)}
-.auth-input::placeholder{color:rgba(255,255,255,.2)}
-.phone-row{display:flex;gap:0}
-.code-select{width:130px;flex-shrink:0;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.15);padding:12px 8px 12px 0;color:#fff;font-family:inherit;font-size:13px;outline:none;appearance:none;cursor:pointer;transition:border-color .3s}
-.code-select:focus{border-bottom-color:var(--gold)}
-.code-select option{background:#1a1a1a;color:#fff}
-.phone-input{flex:1;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.15);padding:12px 0 12px 12px;color:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .3s;font-weight:300}
-.phone-input:focus{border-bottom-color:var(--gold)}
-.phone-input::placeholder{color:rgba(255,255,255,.2)}
-body.ar .phone-input{padding:12px 12px 12px 0}
-.auth-btn{width:100%;padding:16px;background:var(--gold);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-top:12px;transition:all .3s}
-.auth-btn:hover{background:var(--gold-light)}
-.auth-link{text-align:center;margin-top:20px;font-size:12px;color:rgba(255,255,255,.4)}
-.auth-link a{color:var(--gold-light);cursor:pointer;text-decoration:none}
-.auth-link a:hover{color:#fff}
-.otp-hint{font-size:11px;color:rgba(255,255,255,.3);text-align:center;margin-bottom:24px;line-height:1.7}
-.otp-boxes{display:flex;gap:10px;justify-content:center;margin-bottom:28px}
-.otp-box{width:52px;height:58px;background:transparent;border:1px solid rgba(255,255,255,.15);color:#fff;font-size:22px;text-align:center;font-family:inherit;outline:none;transition:border-color .3s}
-.otp-box:focus{border-color:var(--gold)}
-.verify-sim-note{font-size:10px;color:rgba(255,255,255,.2);text-align:center;margin-top:16px;letter-spacing:.5px}
-.otp-resend{font-size:11px;color:rgba(255,255,255,.35);text-align:center;margin-top:12px;cursor:pointer}
-.otp-resend:hover{color:var(--gold-light)}
-.verify-method{display:flex;gap:0;margin-bottom:20px;border:1px solid rgba(255,255,255,.12)}
-.verify-method-btn{flex:1;padding:12px;background:transparent;border:none;color:rgba(255,255,255,.4);font-family:inherit;font-size:11px;letter-spacing:1.5px;cursor:pointer;transition:all .2s}
-.verify-method-btn.active{background:var(--gold);color:#fff}
-.auth-or{text-align:center;font-size:10px;color:rgba(255,255,255,.2);letter-spacing:2px;margin:20px 0;display:flex;align-items:center;gap:12px}
-.auth-or::before,.auth-or::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08)}
+    .btn-outline {
+      background: transparent; color: #fff;
+      border: 1px solid rgba(255,255,255,0.4); padding: 16px 44px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
 
-/* ══════════ PROFILE PAGE ══════════ */
-#page-profile{background:var(--warm-white);padding-top:90px}
-.profile-layout{max-width:900px;margin:0 auto;padding:40px 40px 80px}
-.profile-header{display:flex;align-items:center;gap:28px;margin-bottom:48px;padding-bottom:40px;border-bottom:1px solid var(--border)}
-.profile-avatar{width:80px;height:80px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:32px;color:#fff;flex-shrink:0}
+    /* Scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.4); font-size: 9px; letter-spacing: 3px;
+      text-transform: uppercase; z-index: 10;
+    }
+    .scroll-line {
+      width: 1px; height: 48px; background: rgba(255,255,255,0.2);
+      position: relative; overflow: hidden;
+    }
+    .scroll-line::after {
+      content: ''; position: absolute; top: -100%;
+      width: 1px; height: 100%; background: var(--gold-light);
+      animation: scrollAnim 2s ease infinite;
+    }
+    @keyframes scrollAnim { to { top: 200%; } }
 
-.profile-full-name{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;margin-bottom:4px}
-body.ar .profile-full-name{font-family:'Tajawal',sans-serif}
-.profile-email{font-size:12px;color:var(--text-muted)}
-.profile-edit-btn{margin-left:auto;background:transparent;border:1px solid var(--border);padding:9px 20px;font-family:inherit;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;color:var(--text-muted);transition:all .2s}
-body.ar .profile-edit-btn{margin-left:0;margin-right:auto}
-.profile-edit-btn:hover{border-color:var(--gold);color:var(--gold)}
-.profile-section-title{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
-.booking-history{display:flex;flex-direction:column;gap:12px;margin-bottom:48px}
-.booking-history-item{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:#fff;border:1px solid var(--border)}
+    /* About strip */
+    .about-strip {
+      background: var(--cream); padding: 100px 120px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .about-label {
+      font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .about-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 3.5vw, 52px); font-weight: 300; line-height: 1.2;
+      margin-bottom: 24px;
+    }
+    .about-heading em { font-style: italic; }
+    .about-body {
+      font-size: 13px; line-height: 2; color: var(--text-muted); font-weight: 300;
+    }
+    .about-right { display: flex; flex-direction: column; gap: 40px; }
+    .about-stat { border-top: 1px solid var(--border); padding-top: 24px; }
+    .about-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px; font-weight: 300; color: var(--black); line-height: 1;
+    }
+    .about-stat-label {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-muted); margin-top: 4px;
+    }
 
-.bh-salon{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300}
-.bh-service{font-size:11px;color:var(--text-muted);margin-top:3px}
-.bh-right{text-align:right}
-body.ar .bh-right{text-align:left}
-.bh-date{font-size:12px;color:var(--black)}
-.bh-badge{display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;margin-top:4px}
-.bh-badge.done{background:rgba(181,153,106,.12);color:var(--gold)}
-.bh-badge.upcoming{background:rgba(0,0,0,.05);color:var(--text-muted)}
-.profile-settings{display:flex;flex-direction:column;gap:2px}
-.settings-item{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:#fff;border:1px solid var(--border);cursor:pointer;transition:background .15s}
-.settings-item:hover{background:var(--cream)}
-.settings-item-label{font-size:12px;letter-spacing:.5px}
-.settings-item-arrow{color:var(--text-muted);font-size:14px}
-.settings-logout{color:#c0392b}
-/* Profile edit form */
-.edit-form-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;align-items:center;justify-content:center}
-.edit-form-overlay.open{display:flex}
-.edit-form-box{background:#fff;padding:48px;width:100%;max-width:480px;animation:fadeIn .3s ease}
-.edit-form-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:28px}
-body.ar .edit-form-title{font-family:'Tajawal',sans-serif}
-.edit-form-actions{display:flex;gap:12px;margin-top:24px}
-.edit-save{flex:1;padding:14px;background:var(--black);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:background .2s}
-.edit-save:hover{background:var(--gold)}
-.edit-cancel{padding:14px 24px;background:transparent;border:1px solid var(--border);cursor:pointer;font-family:inherit;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);transition:all .2s}
-.edit-cancel:hover{border-color:var(--black);color:var(--black)}
+    /* ─── SALON SELECTION PAGE ─── */
+    #page-salons { background: var(--warm-white); padding-top: 100px; }
 
-/* ══════════ FOOTER ══════════ */
-footer{background:var(--black);color:rgba(255,255,255,.5);padding:60px 120px 40px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px}
-.footer-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:#fff;margin-bottom:14px}
-.footer-tagline{font-size:12px;line-height:1.8;font-weight:300}
-.footer-col-title{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-light);margin-bottom:16px}
-.footer-links{display:flex;flex-direction:column;gap:10px}
-.footer-link{font-size:12px;cursor:pointer;transition:color .2s}
-.footer-link:hover{color:#fff}
-.footer-social{display:flex;gap:14px;margin-top:8px}
-.social-icon{width:34px;height:34px;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;transition:all .2s;color:rgba(255,255,255,.5)}
-.social-icon:hover{border-color:var(--gold);color:var(--gold)}
-.footer-bottom{background:var(--black);text-align:center;padding:20px;font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.2);border-top:1px solid rgba(255,255,255,.05)}
+    .section-header {
+      text-align: center; padding: 60px 40px 40px;
+    }
+    .section-label {
+      font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 64px); font-weight: 300; line-height: 1.1;
+    }
+    .section-title em { font-style: italic; }
 
-/* ══════════ RESPONSIVE ══════════ */
-@media(max-width:900px){
-  nav{padding:18px 20px}
-  .hero{grid-template-columns:1fr}
-  .hero-right{display:none}
-  .about-strip{grid-template-columns:1fr;padding:60px 24px;gap:40px}
-  .salons-grid{grid-template-columns:1fr;padding:0 20px 60px}
-  .salon-card{height:360px}
-  .services-grid{grid-template-columns:1fr;padding:0 20px 60px}
-  .service-card{height:300px}
-  .booking-layout{grid-template-columns:1fr;padding:0 20px 60px}
-  .back-btn{padding:0 20px}
-  footer{grid-template-columns:1fr;padding:50px 24px 30px}
-  .confirm-details{gap:28px;padding:28px 20px}
-  .time-grid{grid-template-columns:repeat(3,1fr)}
-  .form-row{grid-template-columns:1fr}
-  .profile-layout{padding:20px 20px 60px}
-  .profile-header{flex-wrap:wrap}
-}
-</style>
+    .breadcrumb {
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 60px; margin-bottom: 20px;
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .breadcrumb span { color: var(--gold); }
+    .breadcrumb-sep { color: var(--border); }
+
+    .salons-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; padding: 0 60px 80px;
+    }
+
+    .salon-card {
+      position: relative; height: 520px; overflow: hidden; cursor: pointer;
+      background: var(--black);
+    }
+    .salon-card img {
+      width: 100%; height: 100%; object-fit: cover;
+ filter: brightness(0.45); transition: all 0.6s ease;
+    }
+    .salon-card:hover img { filter: brightness(0.3); transform: scale(1.05); }
+
+    .salon-card-content {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 40px;
+      color: #fff;
+    }
+
+    .salon-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 72px; font-weight: 300;
+      color: rgba(255,255,255,0.08); line-height: 1;
+      position: absolute; top: 20px; right: 30px;
+    }
+
+    .salon-tag {
+      font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 12px;
+    }
+    .salon-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px; font-weight: 300; margin-bottom: 12px;
+    }
+    .salon-desc {
+      font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.7;
+      font-weight: 300; margin-bottom: 28px;
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+    }
+    .salon-card:hover .salon-desc { max-height: 80px; }
+    .salon-select-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #fff; border: 1px solid rgba(255,255,255,0.3);
+      padding: 12px 24px; background: transparent;
+      font-family: 'Montserrat', sans-serif; cursor: pointer;
+      transition: all 0.3s; opacity: 0; transform: translateY(8px);
+    }
+    .salon-card:hover .salon-select-btn {
+      opacity: 1; transform: translateY(0);
+      border-color: var(--gold-light); color: var(--gold-light);
+    }
+
+    /* ─── SERVICES PAGE ─── */
+    #page-services { background: var(--black); padding-top: 100px; }
+    #page-services .section-title { color: #fff; }
+    #page-services .section-label { color: var(--gold-light); }
+    #page-services .breadcrumb { color: rgba(255,255,255,0.4); }
+    #page-services .breadcrumb span { color: var(--gold-light); }
+
+    .services-chosen {
+      text-align: center; padding: 0 40px 60px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; color: rgba(255,255,255,0.5); font-style: italic;
+    }
+
+    .services-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 2px; padding: 0 60px 80px;
+    }
+
+    .service-card {
+      position: relative; height: 400px; overflow: hidden; cursor: pointer;
+      background: var(--charcoal);
+    }
+    .service-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.35); transition: all 0.6s ease;
+    }
+    .service-card:hover img { filter: brightness(0.2); transform: scale(1.04); }
+
+    .service-card-content {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center; color: #fff; padding: 40px;
+    }
+
+    .service-icon {
+      font-size: 32px; margin-bottom: 20px; opacity: 0.6;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .service-card:hover .service-icon { opacity: 1; transform: scale(1.1); }
+
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px; font-weight: 300; margin-bottom: 12px;
+    }
+    .service-detail {
+      font-size: 11px; letter-spacing: 1px; color: rgba(255,255,255,0.45);
+      margin-bottom: 28px; line-height: 1.8; font-weight: 300;
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+    }
+    .service-card:hover .service-detail { max-height: 60px; }
+    .service-pick-btn {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold-light); border: 1px solid var(--gold-light);
+      padding: 12px 32px; background: transparent;
+      font-family: 'Montserrat', sans-serif; cursor: pointer;
+      transition: all 0.3s; opacity: 0; transform: translateY(8px);
+    }
+    .service-card:hover .service-pick-btn {
+      opacity: 1; transform: translateY(0);
+    }
+    .service-pick-btn:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+
+    /* ─── BOOKING FORM PAGE ─── */
+    #page-booking { background: var(--cream); padding-top: 100px; }
+    #page-booking .section-label { color: var(--gold); }
+
+    .booking-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; padding: 0 60px 80px; min-height: 60vh;
+    }
+
+    .booking-summary {
+      background: var(--black); color: #fff;
+      padding: 60px 50px; display: flex; flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .summary-label {
+      font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 40px;
+    }
+    .summary-item {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 20px 0;
+    }
+    .summary-item-key {
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-bottom: 6px;
+    }
+    .summary-item-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px; font-weight: 300;
+    }
+    .booking-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; font-style: italic;
+      color: rgba(255,255,255,0.3); line-height: 1.7;
+      margin-top: 40px;
+    }
+
+    .booking-form-wrap {
+      background: #fff; padding: 60px 50px;
+    }
+    .form-section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px; font-weight: 300; margin-bottom: 36px;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { margin-bottom: 24px; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    label {
+      display: block; font-size: 9px; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      width: 100%; padding: 14px 0; font-size: 14px;
+      background: transparent; border: none; border-bottom: 1px solid var(--border);
+      font-family: 'Montserrat', sans-serif; color: var(--black);
+      outline: none; transition: border-color 0.3s; appearance: none;
+      font-weight: 300;
+    }
+    input:focus, select:focus { border-bottom-color: var(--gold); }
+    input::placeholder { color: rgba(0,0,0,0.2); }
+
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '↓'; position: absolute; right: 4px; top: 50%;
+      transform: translateY(-50%); color: var(--gold); pointer-events: none;
+      font-size: 12px;
+    }
+
+    .time-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    }
+    .time-slot {
+      padding: 10px 6px; text-align: center;
+      border: 1px solid var(--border); cursor: pointer;
+      font-size: 11px; font-family: 'Montserrat', sans-serif;
+      font-weight: 300; color: var(--text-muted);
+      transition: all 0.2s; background: transparent;
+    }
+    .time-slot:hover { border-color: var(--gold); color: var(--gold); }
+    .time-slot.selected {
+      background: var(--gold); border-color: var(--gold);
+      color: #fff;
+    }
+    .time-slot.disabled {
+      opacity: 0.3; cursor: default; pointer-events: none;
+    }
+
+    .divider {
+      height: 1px; background: var(--border); margin: 32px 0;
+    }
+
+    .submit-btn {
+      width: 100%; padding: 18px; background: var(--black);
+      color: #fff; border: none; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      transition: all 0.3s;
+    }
+    .submit-btn:hover { background: var(--gold); transform: translateY(-2px); }
+
+    /* ─── CONFIRMATION PAGE ─── */
+    #page-confirm {
+      background: var(--black); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; min-height: 100vh;
+      text-align: center; padding: 120px 40px 80px; color: #fff;
+    }
+
+    .confirm-icon {
+      width: 72px; height: 72px; border: 1px solid var(--gold);
+      border-radius: 50%; display: flex; align-items: center;
+     justify-content: center; margin: 0 auto 40px;
+      font-size: 28px; animation: popIn 0.5s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .confirm-label {
+      font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 20px;
+    }
+    .confirm-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 5vw, 72px); font-weight: 300;
+      line-height: 1.1; margin-bottom: 20px;
+    }
+    .confirm-title em { font-style: italic; color: var(--gold-light); }
+    .confirm-sub {
+      font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.9;
+      font-weight: 300; max-width: 480px; margin: 0 auto 50px;
+    }
+
+    .confirm-details {
+      display: flex; gap: 60px; justify-content: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 40px 60px; margin-bottom: 50px;
+    }
+    .confirm-detail-item { text-align: center; }
+    .confirm-detail-key {
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); margin-bottom: 8px;
+    }
+    .confirm-detail-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 300;
+    }
+
+    .btn-home {
+      background: transparent; color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 14px 48px; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      transition: all 0.3s;
+    }
+    .btn-home:hover { border-color: var(--gold-light); color: var(--gold-light); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .about-strip { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
+      .salons-grid { grid-template-columns: 1fr; padding: 0 24px 60px; }
+      .salon-card { height: 380px; }
+      .services-grid { grid-template-columns: 1fr; padding: 0 24px 60px; }
+      .service-card { height: 320px; }
+      .booking-layout { grid-template-columns: 1fr; padding: 0 24px 60px; }
+      .breadcrumb { padding: 0 24px; }
+      .confirm-details { flex-wrap: wrap; gap: 32px; padding: 30px 24px; }
+      .time-grid { grid-template-columns: repeat(3, 1fr); }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- TRANSITION OVERLAY -->
-<div id="transition-overlay"></div>
-
-<!-- ══════════ NAV ══════════ -->
+<!-- ─── NAV ─── -->
 <nav id="main-nav" class="dark">
-  <div class="nav-logo" onclick="goTo('home')" data-i18n="brand">GLAMOURA</div>
-  <div class="nav-right">
-    <!-- Language toggle -->
-    <div class="lang-toggle">
-      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" id="btn-ar" onclick="setLang('ar')">عر</button>
-    </div>
-    <!-- Profile -->
-    <div style="position:relative">
-      <button class="profile-btn" id="profile-btn" onclick="toggleDropdown()" title="Account">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-        </svg>
-      </button>
-      <div class="profile-dropdown" id="profile-dropdown">
-[17/11/47 11:49 م] S: <!-- filled by JS -->
-      </div>
-    </div>
-  </div>
+  <div class="nav-logo" onclick="goTo('home')">GLAMOURA</div>
 </nav>
 
-<!-- ══════════ PAGE 1 — HOME ══════════ -->
+<!-- PAGE 1 — LANDING -->
 <div id="page-home" class="page active">
   <div class="hero">
-    <div class="hero-left"><img src="IMG_2889.jpeg" alt=""/></div>
-    <div class="hero-right">
-      <div class="hero-right-top"><img src="IMG_2891.jpeg" alt=""/></div>
-      <div class="hero-right-bottom"><img src="IMG_2888.jpeg" alt=""/></div>
+    <div class="hero-left">
+      <img src="IMG_2889.jpeg" alt="Hair styling" />
     </div>
-    <div class="hero-text">
-      <div class="hero-eyebrow" data-i18n="hero_eyebrow">The Art of Beauty Booking</div>
-      <h1 class="hero-title"><em data-i18n="hero_title_em">Curated</em> <span data-i18n="hero_title_rest">Salons,<br>Elegant Experiences</span></h1>
-      <p class="hero-sub" data-i18n="hero_sub">Where Your Beauty Journey Begins</p>
-      <div class="hero-cta">
-        <button class="btn-primary" onclick="goTo('salons')" data-i18n="book_now">Book Now</button>
-        <button class="btn-outline" onclick="scrollToAbout()" data-i18n="discover_more">Discover More</button>
+    <div class="hero-right">
+      <div class="hero-right-top">
+        <img src="IMG_2891.jpeg" alt="Color treatment" />
+      </div>
+      <div class="hero-right-bottom">
+        <img src="IMG_2888.jpeg" alt="Hair tools" />
       </div>
     </div>
-    <div class="scroll-hint"><span data-i18n="scroll">Scroll</span><div class="scroll-line"></div></div>
+    <div class="hero-text">
+      <div class="hero-eyebrow">The Art of Beauty Booking</div>
+      <h1 class="hero-title">
+        <em>Curated</em> Salons,<br>Elegant Experiences
+      </h1>
+      <p class="hero-sub">Where Your Beauty Journey Begins</p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="goTo('salons')">Book Now</button>
+        <button class="btn-outline" onclick="scrollToAbout()">Discover More</button>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
   </div>
 
   <div class="about-strip" id="about-strip">
-    <div>
-      <p class="about-label" data-i18n="our_philosophy">Our Philosophy</p>
-      <h2 class="about-heading" data-i18n="about_heading">Beauty that feels effortless, accessible, and deeply <em>personal</em></h2>
-      <p class="about-body" data-i18n="about_body">At Glamoura, we believe that beauty should feel effortless, accessible, and deeply personal.<br><br>Our philosophy is built on the idea that self-care is not a luxury—it is a part of everyday well-being. That's why we created a platform that brings together carefully selected salons in one seamless experience, allowing every woman to discover and book beauty services with ease and confidence.<br><br>We value simplicity in design, clarity in choice, and elegance in experience. From the moment you explore salons to the time you confirm your appointment, every step is designed to feel smooth, intuitive, and refined.<br><br>Because at Glamoura, we don't just connect you to salons—we elevate your entire beauty journey.</p>
+    <div class="about-left">
+      <p class="about-label">Our Philosophy</p>
+      <h2 class="about-heading">Beauty that feels effortless, accessible, and deeply <em>personal</em></h2>
+      <p class="about-body">
+        At Glamoura, we believe that beauty should feel effortless, accessible, and deeply personal.<br><br>
+[17/11/47 10:17 م] S: Our philosophy is built on the idea that self-care is not a luxury—it is a part of everyday well-being. That's why we created a platform that brings together carefully selected salons in one seamless experience, allowing every woman to discover and book beauty services with ease and confidence.<br><br>
+        We value simplicity in design, clarity in choice, and elegance in experience. From the moment you explore salons to the time you confirm your appointment, every step is designed to feel smooth, intuitive, and refined.<br><br>
+        Because at Glamoura, we don't just connect you to salons—we elevate your entire beauty journey.
+      </p>
     </div>
     <div class="about-right">
-      <div class="about-stat"><div class="about-stat-num">03</div><div class="about-stat-label" data-i18n="stat1">Premium Salon Locations</div></div>
-      <div class="about-stat"><div class="about-stat-num">04</div><div class="about-stat-label" data-i18n="stat2">Curated Services</div></div>
-      <div class="about-stat"><div class="about-stat-num">∞</div><div class="about-stat-label" data-i18n="stat3">Moments of Confidence</div></div>
+      <div class="about-stat">
+        <div class="about-stat-num">03</div>
+        <div class="about-stat-label">Premium Salon Locations</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num">04</div>
+        <div class="about-stat-label">Curated Services</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num">∞</div>
+        <div class="about-stat-label">Moments of Confidence</div>
+      </div>
     </div>
   </div>
-  <!-- Footer -->
-  <footer>
-    <div class="footer-brand">
-      <div class="footer-logo">GLAMOURA</div>
-      <p class="footer-tagline" data-i18n="footer_tagline">Curated salons, elegant experiences.<br>Your beauty journey starts here.</p>
-    </div>
-    <div>
-      <p class="footer-col-title" data-i18n="footer_nav">Navigate</p>
-      <div class="footer-links">
-        <span class="footer-link" onclick="goTo('home')" data-i18n="nav_home">Home</span>
-        <span class="footer-link" onclick="goTo('salons')" data-i18n="nav_salons">Our Salons</span>
-        <span class="footer-link" onclick="goTo('salons')" data-i18n="nav_services">Services</span>
-      </div>
-    </div>
-    <div>
-      <p class="footer-col-title" data-i18n="footer_follow">Follow Us</p>
-      <div class="footer-social">
-        <div class="social-icon">✦</div>
-        <div class="social-icon">◈</div>
-        <div class="social-icon">◉</div>
-      </div>
-      <p style="font-size:11px;margin-top:18px;line-height:1.8" data-i18n="footer_contact">hello@glamoura.com<br>+966 50 000 0000</p>
-    </div>
-  </footer>
-  <div class="footer-bottom" data-i18n="footer_copy">© 2026 Glamoura. All rights reserved.</div>
 </div>
 
-<!-- ══════════ PAGE 2 — SALONS ══════════ -->
+<!-- PAGE 2 — CHOOSE SALON -->
 <div id="page-salons" class="page">
-  <div id="progress-salons" style="padding:0 60px 0;margin-top:8px">
-[17/11/47 11:49 م] S: <div style="display:flex;gap:8px;align-items:center;padding-top:8px">
-      <div style="flex:1;height:2px;background:var(--gold)"></div>
-      <div style="flex:1;height:2px;background:var(--border)"></div>
-      <div style="flex:1;height:2px;background:var(--border)"></div>
-    </div>
-    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)">
-      <span style="color:var(--gold)" data-i18n="step_salon">01 · Salon</span>
-      <span data-i18n="step_service">02 · Service</span>
-      <span data-i18n="step_details">03 · Details</span>
-    </div>
-  </div>
-  <button class="back-btn" onclick="goTo('home')">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
-    <span data-i18n="back">Back</span>
-  </button>
   <div class="section-header">
-    <p class="section-label" data-i18n="step1_label">Step 01 of 03</p>
-    <h2 class="section-title" data-i18n="step1_title">Choose Your <em>Salon</em></h2>
+    <p class="section-label">Step 01 of 03</p>
+    <h2 class="section-title">Choose Your <em>Salon</em></h2>
   </div>
   <div class="salons-grid">
     <div class="salon-card" onclick="selectSalon('Resha')">
-      <img src="IMG_2890.jpeg" alt="Resha"/>
+      <img src="IMG_2890.jpeg" alt="Resha Salon" />
       <div class="salon-card-content">
         <div class="salon-number">01</div>
-        <p class="salon-tag" data-i18n="salon1_tag">Premium Experience</p>
+        <p class="salon-tag">Premium Experience</p>
         <h3 class="salon-name">Resha</h3>
-        <p class="salon-location">📍 <span data-i18n="salon1_loc">Al Olaya, Riyadh</span></p>
-        <p class="salon-desc" data-i18n="salon1_desc">A sanctuary of style and sophistication, where every visit is a bespoke journey.</p>
-        <button class="salon-select-btn" data-i18n="select_salon">Select Salon →</button>
+        <p class="salon-desc">A sanctuary of style and sophistication, where every visit is a bespoke journey.</p>
+        <button class="salon-select-btn">Select Salon →</button>
       </div>
     </div>
     <div class="salon-card" onclick="selectSalon('Swan Spa')">
-      <img src="IMG_2891.jpeg" alt="Swan Spa"/>
+      <img src="IMG_2891.jpeg" alt="Swan Spa" />
       <div class="salon-card-content">
         <div class="salon-number">02</div>
-        <p class="salon-tag" data-i18n="salon2_tag">Spa & Wellness</p>
+        <p class="salon-tag">Spa & Wellness</p>
         <h3 class="salon-name">Swan Spa</h3>
-        <p class="salon-location">📍 <span data-i18n="salon2_loc">Hittin, Riyadh</span></p>
-        <p class="salon-desc" data-i18n="salon2_desc">Elevated tranquility meets expert artistry for an indulgent full-body experience.</p>
-        <button class="salon-select-btn" data-i18n="select_salon">Select Salon →</button>
+        <p class="salon-desc">Elevated tranquility meets expert artistry for an indulgent full-body experience.</p>
+        <button class="salon-select-btn">Select Salon →</button>
       </div>
     </div>
     <div class="salon-card" onclick="selectSalon('Black Diamond')">
-      <img src="IMG_2889.jpeg" alt="Black Diamond"/>
+      <img src="IMG_2889.jpeg" alt="Black Diamond Salon" />
       <div class="salon-card-content">
         <div class="salon-number">03</div>
-        <p class="salon-tag" data-i18n="salon3_tag">Luxury Signature</p>
+        <p class="salon-tag">Luxury Signature</p>
         <h3 class="salon-name">Black Diamond</h3>
-        <p class="salon-location">📍 <span data-i18n="salon3_loc">Al Nakheel, Riyadh</span></p>
-        <p class="salon-desc" data-i18n="salon3_desc">Where refined aesthetics and bold transformations create timeless beauty.</p>
-        <button class="salon-select-btn" data-i18n="select_salon">Select Salon →</button>
+        <p class="salon-desc">Where refined aesthetics and bold transformations create timeless beauty.</p>
+        <button class="salon-select-btn">Select Salon →</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════ PAGE 3 — SERVICES ══════════ -->
+<!-- PAGE 3 — CHOOSE SERVICE -->
 <div id="page-services" class="page">
-  <div style="padding:0 60px 0;margin-top:8px">
-    <div style="display:flex;gap:8px;align-items:center;padding-top:8px">
-      <div style="flex:1;height:2px;background:var(--gold)"></div>
-      <div style="flex:1;height:2px;background:var(--gold)"></div>
-      <div style="flex:1;height:2px;background:rgba(255,255,255,.15)"></div>
-    </div>
-    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3)">
-      <span style="color:var(--gold-light)" data-i18n="step_salon">01 · Salon</span>
-      <span style="color:var(--gold-light)" data-i18n="step_service">02 · Service</span>
-      <span data-i18n="step_details">03 · Details</span>
-    </div>
-  </div>
-  <button class="back-btn" onclick="goTo('salons')" style="color:rgba(255,255,255,.4)">
-[17/11/47 11:49 م] S: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
-    <span data-i18n="back">Back</span>
-  </button>
   <div class="section-header">
-    <p class="section-label" data-i18n="step2_label">Step 02 of 03</p>
-    <h2 class="section-title" data-i18n="step2_title">Select Your <em>Service</em></h2>
+    <p class="section-label">Step 02 of 03</p>
+    <h2 class="section-title">Select Your <em>Service</em></h2>
   </div>
   <p class="services-chosen" id="services-chosen-label"></p>
   <div class="services-grid">
-    <div class="service-card" onclick="selectService('Manicure & Pedicure','SAR 150 – 280')">
-      <img src="IMG_2888.jpeg" alt=""/>
+    <div class="service-card" onclick="selectService('Manicure & Pedicure')">
+      <img src="IMG_2888.jpeg" alt="Manicure and Pedicure" />
       <div class="service-card-content">
         <div class="service-icon">💅</div>
-        <h3 class="service-name" data-i18n="svc1_name">Manicure & Pedicure</h3>
-        <p class="service-price" data-i18n="svc1_price">SAR 150 – 280</p>
-        <p class="service-detail" data-i18n="svc1_desc">Precision nail care with premium products and artful finishing touches.</p>
-        <button class="service-pick-btn" data-i18n="select_service">Select Service</button>
+        <h3 class="service-name">Manicure & Pedicure</h3>
+        <p class="service-detail">Precision nail care with premium products and artful finishing touches.</p>
+        <button class="service-pick-btn">Select Service</button>
       </div>
     </div>
-    <div class="service-card" onclick="selectService('Hair Service','SAR 200 – 600')">
-      <img src="IMG_2889.jpeg" alt=""/>
+    <div class="service-card" onclick="selectService('Hair Service')">
+      <img src="IMG_2889.jpeg" alt="Hair Service" />
       <div class="service-card-content">
         <div class="service-icon">✂️</div>
-        <h3 class="service-name" data-i18n="svc2_name">Hair Service</h3>
-        <p class="service-price" data-i18n="svc2_price">SAR 200 – 600</p>
-        <p class="service-detail" data-i18n="svc2_desc">Cut, color, blowout, and styling by our master hair artists.</p>
-        <button class="service-pick-btn" data-i18n="select_service">Select Service</button>
+        <h3 class="service-name">Hair Service</h3>
+        <p class="service-detail">Cut, color, blowout, and styling by our master hair artists.</p>
+[17/11/47 10:17 م] S: <button class="service-pick-btn">Select Service</button>
       </div>
     </div>
-    <div class="service-card" onclick="selectService('Spa Service','SAR 300 – 700')">
-      <img src="IMG_2890.jpeg" alt=""/>
+    <div class="service-card" onclick="selectService('Spa Service')">
+      <img src="IMG_2890.jpeg" alt="Spa Service" />
       <div class="service-card-content">
         <div class="service-icon">🌿</div>
-        <h3 class="service-name" data-i18n="svc3_name">Spa Service</h3>
-        <p class="service-price" data-i18n="svc3_price">SAR 300 – 700</p>
-        <p class="service-detail" data-i18n="svc3_desc">Holistic rituals designed to restore, rejuvenate, and revive your senses.</p>
-        <button class="service-pick-btn" data-i18n="select_service">Select Service</button>
+        <h3 class="service-name">Spa Service</h3>
+        <p class="service-detail">Holistic rituals designed to restore, rejuvenate, and revive your senses.</p>
+        <button class="service-pick-btn">Select Service</button>
       </div>
     </div>
-    <div class="service-card" onclick="selectService('Massage','SAR 250 – 500')">
-      <img src="IMG_2891.jpeg" alt=""/>
+    <div class="service-card" onclick="selectService('Massage')">
+      <img src="IMG_2891.jpeg" alt="Massage" />
       <div class="service-card-content">
         <div class="service-icon">🤍</div>
-        <h3 class="service-name" data-i18n="svc4_name">Massage</h3>
-        <p class="service-price" data-i18n="svc4_price">SAR 250 – 500</p>
-        <p class="service-detail" data-i18n="svc4_desc">Therapeutic and relaxation massage tailored to your body's needs.</p>
-        <button class="service-pick-btn" data-i18n="select_service">Select Service</button>
+        <h3 class="service-name">Massage</h3>
+        <p class="service-detail">Therapeutic and relaxation massage tailored to your body's needs.</p>
+        <button class="service-pick-btn">Select Service</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════ PAGE 4 — BOOKING ══════════ -->
+<!-- PAGE 4 — BOOKING FORM -->
 <div id="page-booking" class="page">
-  <div style="padding:0 60px 0;margin-top:8px">
-    <div style="display:flex;gap:8px;align-items:center;padding-top:8px">
-      <div style="flex:1;height:2px;background:var(--gold)"></div>
-      <div style="flex:1;height:2px;background:var(--gold)"></div>
-      <div style="flex:1;height:2px;background:var(--gold)"></div>
-    </div>
-    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)">
-      <span style="color:var(--gold)" data-i18n="step_salon">01 · Salon</span>
-      <span style="color:var(--gold)" data-i18n="step_service">02 · Service</span>
-      <span style="color:var(--gold)" data-i18n="step_details">03 · Details</span>
-    </div>
-  </div>
-  <button class="back-btn" onclick="goTo('services')">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
-    <span data-i18n="back">Back</span>
-  </button>
   <div class="section-header">
-[17/11/47 11:49 م] S: <p class="section-label" data-i18n="step3_label">Step 03 of 03</p>
-    <h2 class="section-title" style="color:var(--black)" data-i18n="step3_title">Complete Your <em>Booking</em></h2>
+    <p class="section-label">Step 03 of 03</p>
+    <h2 class="section-title" style="color:var(--black)">Complete Your <em>Booking</em></h2>
   </div>
   <div class="booking-layout">
     <div class="booking-summary">
-      <div>
-        <p class="summary-label" data-i18n="booking_summary">Booking Summary</p>
-        <div class="summary-item"><div class="summary-item-key" data-i18n="salon_lbl">Salon</div><div class="summary-item-val" id="sum-salon">—</div></div>
-        <div class="summary-item"><div class="summary-item-key" data-i18n="service_lbl">Service</div><div class="summary-item-val" id="sum-service">—</div></div>
-        <div class="summary-item"><div class="summary-item-key" data-i18n="price_lbl">Price Range</div><div class="summary-item-val" id="sum-price">—</div></div>
-        <div class="summary-item"><div class="summary-item-key" data-i18n="date_lbl">Date</div><div class="summary-item-val" id="sum-date">—</div></div>
-        <div class="summary-item"><div class="summary-item-key" data-i18n="time_lbl">Time</div><div class="summary-item-val" id="sum-time">—</div></div>
+      <div class="booking-summary-top">
+        <p class="summary-label">Booking Summary</p>
+        <div class="summary-item">
+          <div class="summary-item-key">Salon</div>
+          <div class="summary-item-val" id="sum-salon">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-key">Service</div>
+          <div class="summary-item-val" id="sum-service">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-key">Date</div>
+          <div class="summary-item-val" id="sum-date">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-key">Time</div>
+          <div class="summary-item-val" id="sum-time">—</div>
+        </div>
       </div>
       <p class="booking-quote">"Your beauty is not defined by what you see in the mirror, but by how you feel within."</p>
     </div>
     <div class="booking-form-wrap">
-      <h3 class="form-section-title" data-i18n="your_details">Your Details</h3>
+      <h3 class="form-section-title">Your Details</h3>
       <div class="form-row">
-        <div class="form-group"><label data-i18n="first_name">First Name</label><input type="text" id="f-first" placeholder="Sarah" oninput="updateSummary()"/></div>
-        <div class="form-group"><label data-i18n="last_name">Last Name</label><input type="text" id="f-last" placeholder="Johnson" oninput="updateSummary()"/></div>
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="f-first" placeholder="Sarah" oninput="updateSummary()" />
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="f-last" placeholder="Johnson" oninput="updateSummary()" />
+        </div>
       </div>
-      <div class="form-group"><label data-i18n="email_lbl">Email Address</label><input type="email" id="f-email" placeholder="sarah@email.com"/></div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="f-email" placeholder="sarah@email.com" />
+      </div>
       <div class="divider"></div>
-      <h3 class="form-section-title" data-i18n="select_datetime">Select Date & Time</h3>
+      <h3 class="form-section-title">Select Date & Time</h3>
       <div class="form-row">
-        <div class="form-group"><label data-i18n="year_lbl">Year</label><div class="select-wrap"><select id="f-year" onchange="updateDays();updateSummary()"><option value="" data-i18n="sel_year">— Year —</option><option value="2025">2025</option><option value="2026" selected>2026</option><option value="2027">2027</option></select></div></div>
-        <div class="form-group"><label data-i18n="month_lbl">Month</label><div class="select-wrap"><select id="f-month" onchange="updateDays();updateSummary()"><option value="" data-i18n="sel_month">— Month —</option><option value="01">January</option><option value="02">February</option><option value="03">March</option><option value="04">April</option><option value="05">May</option><option value="06">June</option><option value="07">July</option><option value="08">August</option><option value="09">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div></div>
+        <div class="form-group">
+          <label>Year</label>
+          <div class="select-wrap">
+            <select id="f-year" onchange="updateDays(); updateSummary()">
+              <option value="">— Select Year —</option>
+              <option value="2025">2025</option>
+              <option value="2026" selected>2026</option>
+              <option value="2027">2027</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Month</label>
+          <div class="select-wrap">
+            <select id="f-month" onchange="updateDays(); updateSummary()">
+              <option value="">— Select Month —</option>
+              <option value="01">January</option><option value="02">February</option>
+              <option value="03">March</option><option value="04">April</option>
+              <option value="05">May</option><option value="06">June</option>
+              <option value="07">July</option><option value="08">August</option>
+              <option value="09">September</option><option value="10">October</option>
+[17/11/47 10:17 م] S: <option value="11">November</option><option value="12">December</option>
+            </select>
+          </div>
+        </div>
       </div>
-      <div class="form-group"><label data-i18n="day_lbl">Day</label><div class="select-wrap"><select id="f-day" onchange="validateDate();updateSummary()"><option value="" data-i18n="sel_day">— Day —</option></select></div></div>
-      <p id="date-error" style="font-size:11px;color:#c0392b;margin-top:-14px;margin-bottom:14px;display:none" data-i18n="past_date_err">Please select a future date.</p>
-      <div class="form-group"><label data-i18n="time_lbl2">Available Times</label><div class="time-grid" id="time-grid"></div></div>
+      <div class="form-group">
+        <label>Day</label>
+        <div class="select-wrap">
+          <select id="f-day" onchange="updateSummary()">
+            <option value="">— Select Day —</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Available Times</label>
+        <div class="time-grid" id="time-grid"></div>
+      </div>
       <div class="divider"></div>
-      <button class="submit-btn" onclick="submitBooking()" data-i18n="confirm_btn">Confirm Reservation</button>
+      <button class="submit-btn" onclick="submitBooking()">Confirm Reservation</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════ PAGE 5 — CONFIRMATION ══════════ -->
+<!-- PAGE 5 — CONFIRMATION -->
 <div id="page-confirm" class="page">
   <div class="confirm-icon">✓</div>
-  <p class="confirm-label" data-i18n="booking_confirmed">Booking Confirmed</p>
-  <h2 class="confirm-title" data-i18n="thank_you">Thank You,<br><em id="conf-name">—</em></h2>
-[17/11/47 11:49 م] S: <p class="confirm-ref" id="conf-ref"></p>
-  <p class="confirm-sub" data-i18n="confirm_sub">Your appointment has been reserved. A confirmation will be sent to your email. We look forward to welcoming you.</p>
+  <p class="confirm-label">Booking Confirmed</p>
+  <h2 class="confirm-title">Thank You,<br><em id="conf-name">—</em></h2>
+  <p class="confirm-sub">
+    Your appointment has been reserved. A confirmation will be sent to your email. We look forward to welcoming you.
+  </p>
   <div class="confirm-details">
-    <div class="confirm-detail-item"><div class="confirm-detail-key" data-i18n="salon_lbl">Salon</div><div class="confirm-detail-val" id="conf-salon">—</div></div>
-    <div class="confirm-detail-item"><div class="confirm-detail-key" data-i18n="service_lbl">Service</div><div class="confirm-detail-val" id="conf-service">—</div></div>
-    <div class="confirm-detail-item"><div class="confirm-detail-key" data-i18n="date_lbl">Date</div><div class="confirm-detail-val" id="conf-date">—</div></div>
-    <div class="confirm-detail-item"><div class="confirm-detail-key" data-i18n="time_lbl">Time</div><div class="confirm-detail-val" id="conf-time">—</div></div>
-  </div>
-  <div class="confirm-actions">
-    <button class="btn-cal" onclick="addToCalendar()" data-i18n="add_cal">+ Add to Calendar</button>
-    <button class="btn-home" onclick="goTo('home')" data-i18n="return_home">Return to Home</button>
-  </div>
-</div>
-
-<!-- ══════════ PAGE 6 — SIGN IN ══════════ -->
-<div id="page-signin" class="page auth-page">
-  <div class="auth-logo">GLAMOURA</div>
-  <p class="auth-welcome" data-i18n="welcome_back">Welcome Back</p>
-  <div class="auth-box">
-    <h2 class="auth-title" data-i18n="signin_title">Sign In</h2>
-    <div class="auth-group">
-      <label data-i18n="phone_lbl">Phone Number</label>
-      <div class="phone-row">
-        <select class="code-select" id="signin-code">
-          <option value="+966">🇸🇦 +966</option><option value="+971">🇦🇪 +971</option>
-          <option value="+965">🇰🇼 +965</option><option value="+974">🇶🇦 +974</option>
-          <option value="+973">🇧🇭 +973</option><option value="+968">🇴🇲 +968</option>
-          <option value="+20">🇪🇬 +20</option><option value="+962">🇯🇴 +962</option>
-          <option value="+961">🇱🇧 +961</option><option value="+1">🇺🇸 +1</option>
-          <option value="+44">🇬🇧 +44</option><option value="+33">🇫🇷 +33</option>
-          <option value="+49">🇩🇪 +49</option><option value="+39">🇮🇹 +39</option>
-          <option value="+91">🇮🇳 +91</option><option value="+86">🇨🇳 +86</option>
-          <option value="+81">🇯🇵 +81</option><option value="+82">🇰🇷 +82</option>
-          <option value="+55">🇧🇷 +55</option><option value="+7">🇷🇺 +7</option>
-        </select>
-        <input type="tel" class="phone-input" id="signin-phone" placeholder="5X XXX XXXX"/>
-      </div>
+    <div class="confirm-detail-item">
+      <div class="confirm-detail-key">Salon</div>
+      <div class="confirm-detail-val" id="conf-salon">—</div>
     </div>
-    <button class="auth-btn" onclick="sendOtp('signin')" data-i18n="send_otp">Send Verification Code</button>
-    <div class="auth-or"><span data-i18n="or_text">OR</span></div>
-    <div class="auth-link" data-i18n="no_account">Don't have an account? <a onclick="goTo('signup')" data-i18n="register_link">Register Now</a></div>
-    <div class="auth-link" style="margin-top:10px"><a onclick="goBack()" data-i18n="back_home_link">← Back to Home</a></div>
-  </div>
-</div>
-
-<!-- ══════════ PAGE 7 — OTP (SIGN IN) ══════════ -->
-<div id="page-otp-signin" class="page auth-page">
-  <div class="auth-logo">GLAMOURA</div>
-  <div class="auth-box">
-    <h2 class="auth-title" data-i18n="otp_title">Verify Your Number</h2>
-    <p class="otp-hint" id="otp-hint-signin" data-i18n="otp_hint">We sent a 4-digit code to your phone.</p>
-    <div class="otp-boxes">
-      <input class="otp-box" id="otp-s1" maxlength="1" oninput="otpNext(this,'otp-s2')" onkeydown="otpBack(event,this,'')"/>
-      <input class="otp-box" id="otp-s2" maxlength="1" oninput="otpNext(this,'otp-s3')" onkeydown="otpBack(event,this,'otp-s1')"/>
-      <input class="otp-box" id="otp-s3" maxlength="1" oninput="otpNext(this,'otp-s4')" onkeydown="otpBack(event,this,'otp-s2')"/>
-      <input class="otp-box" id="otp-s4" maxlength="1" oninput="otpNext(this,'')" onkeydown="otpBack(event,this,'otp-s3')"/>
+    <div class="confirm-detail-item">
+      <div class="confirm-detail-key">Service</div>
+      <div class="confirm-detail-val" id="conf-service">—</div>
     </div>
-    <button class="auth-btn" onclick="verifyOtp('signin')" data-i18n="verify_btn">Verify & Sign In</button>
-[17/11/47 11:49 م] S: <p class="otp-resend" onclick="sendOtp('signin')" data-i18n="resend_code">Resend Code</p>
-    <p class="verify-sim-note" data-i18n="sim_note">Demo: use code 1234</p>
-  </div>
-</div>
-
-<!-- ══════════ PAGE 8 — SIGN UP ══════════ -->
-<div id="page-signup" class="page auth-page">
-  <div class="auth-logo">GLAMOURA</div>
-  <p class="auth-welcome" data-i18n="new_member">New Member</p>
-  <div class="auth-box">
-    <h2 class="auth-title" data-i18n="signup_title">Create Account</h2>
-    <div class="form-row">
-      <div class="auth-group"><label data-i18n="first_name">First Name</label><input type="text" class="auth-input" id="reg-first" placeholder="Sarah"/></div>
-      <div class="auth-group"><label data-i18n="last_name">Last Name</label><input type="text" class="auth-input" id="reg-last" placeholder="Johnson"/></div>
+    <div class="confirm-detail-item">
+      <div class="confirm-detail-key">Date</div>
+      <div class="confirm-detail-val" id="conf-date">—</div>
     </div>
-    <div class="auth-group">
-      <label data-i18n="phone_lbl">Phone Number</label>
-      <div class="phone-row">
-        <select class="code-select" id="reg-code">
-          <option value="+966">🇸🇦 +966</option><option value="+971">🇦🇪 +971</option>
-          <option value="+965">🇰🇼 +965</option><option value="+974">🇶🇦 +974</option>
-          <option value="+973">🇧🇭 +973</option><option value="+968">🇴🇲 +968</option>
-          <option value="+20">🇪🇬 +20</option><option value="+1">🇺🇸 +1</option>
-          <option value="+44">🇬🇧 +44</option><option value="+33">🇫🇷 +33</option>
-          <option value="+49">🇩🇪 +49</option><option value="+91">🇮🇳 +91</option>
-        </select>
-        <input type="tel" class="phone-input" id="reg-phone" placeholder="5X XXX XXXX"/>
-      </div>
-    </div>
-    <div class="auth-group"><label data-i18n="email_lbl">Email</label><input type="email" class="auth-input" id="reg-email" placeholder="sarah@email.com"/></div>
-    <div class="auth-group">
-      <label data-i18n="verify_via">Verify via</label>
-      <div class="verify-method">
-        <button class="verify-method-btn active" id="verify-sms" onclick="setVerifyMethod('sms')" data-i18n="via_sms">SMS</button>
-        <button class="verify-method-btn" id="verify-email" onclick="setVerifyMethod('email')" data-i18n="via_email">Email</button>
-      </div>
-    </div>
-    <button class="auth-btn" onclick="sendOtp('signup')" data-i18n="create_send_otp">Create & Send Code</button>
-    <div class="auth-link" style="margin-top:16px" data-i18n="have_account">Already have an account? <a onclick="goTo('signin')" data-i18n="signin_link">Sign In</a></div>
-  </div>
-</div>
-
-<!-- ══════════ PAGE 9 — OTP (SIGN UP) ══════════ -->
-<div id="page-otp-signup" class="page auth-page">
-  <div class="auth-logo">GLAMOURA</div>
-  <div class="auth-box">
-    <h2 class="auth-title" data-i18n="otp_title">Verify Your Account</h2>
-    <p class="otp-hint" id="otp-hint-signup" data-i18n="otp_hint_signup">We sent a 4-digit code to confirm your account.</p>
-    <div class="otp-boxes">
-      <input class="otp-box" id="otp-r1" maxlength="1" oninput="otpNext(this,'otp-r2')" onkeydown="otpBack(event,this,'')"/>
-      <input class="otp-box" id="otp-r2" maxlength="1" oninput="otpNext(this,'otp-r3')" onkeydown="otpBack(event,this,'otp-r1')"/>
-      <input class="otp-box" id="otp-r3" maxlength="1" oninput="otpNext(this,'otp-r4')" onkeydown="otpBack(event,this,'otp-r2')"/>
-      <input class="otp-box" id="otp-r4" maxlength="1" oninput="otpNext(this,'')" onkeydown="otpBack(event,this,'otp-r3')"/>
-    </div>
-    <button class="auth-btn" onclick="verifyOtp('signup')" data-i18n="verify_btn">Verify & Enter</button>
-    <p class="otp-resend" onclick="sendOtp('signup')" data-i18n="resend_code">Resend Code</p>
-    <p class="verify-sim-note" data-i18n="sim_note">Demo: use code 1234</p>
-  </div>
-</div>
-
-<!-- ══════════ PAGE 10 — PROFILE ══════════ -->
-<div id="page-profile" class="page">
-  <div class="profile-layout">
-    <button class="back-btn" onclick="goTo('home')" style="padding:0;margin-bottom:24px">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
-[17/11/47 11:49 م] S: <span data-i18n="back">Back</span>
-    </button>
-    <div class="profile-header">
-      <div class="profile-avatar" id="p-avatar">S</div>
-      <div class="profile-name-wrap">
-        <h2 class="profile-full-name" id="p-fullname">Sarah Johnson</h2>
-        <p class="profile-email" id="p-contact">sarah@email.com</p>
-      </div>
-      <button class="profile-edit-btn" onclick="openEdit()" data-i18n="edit_profile">Edit Profile</button>
-    </div>
-
-    <p class="profile-section-title" data-i18n="past_bookings">Past & Upcoming Bookings</p>
-    <div class="booking-history" id="booking-history"></div>
-
-    <p class="profile-section-title" data-i18n="account_settings">Account Settings</p>
-    <div class="profile-settings">
-      <div class="settings-item" onclick="alert(t('notif_soon'))"><span class="settings-item-label" data-i18n="notif_settings">Notification Preferences</span><span class="settings-item-arrow">›</span></div>
-      <div class="settings-item" onclick="setLang(currentLang==='en'?'ar':'en')"><span class="settings-item-label" data-i18n="change_lang">Change Language</span><span class="settings-item-arrow">›</span></div>
-      <div class="settings-item settings-logout" onclick="logout()"><span class="settings-item-label" data-i18n="sign_out">Sign Out</span><span class="settings-item-arrow">›</span></div>
+    <div class="confirm-detail-item">
+      <div class="confirm-detail-key">Time</div>
+      <div class="confirm-detail-val" id="conf-time">—</div>
     </div>
   </div>
-</div>
-
-<!-- Edit Profile Modal -->
-<div class="edit-form-overlay" id="edit-overlay">
-  <div class="edit-form-box">
-    <h3 class="edit-form-title" data-i18n="edit_info">Edit Information</h3>
-    <div class="form-row">
-      <div class="form-group"><label data-i18n="first_name">First Name</label><input type="text" id="edit-first" style="border-bottom:1px solid var(--border);padding:10px 0;width:100%;outline:none;font-family:inherit"/></div>
-      <div class="form-group"><label data-i18n="last_name">Last Name</label><input type="text" id="edit-last" style="border-bottom:1px solid var(--border);padding:10px 0;width:100%;outline:none;font-family:inherit"/></div>
-    </div>
-    <div class="form-group"><label data-i18n="email_lbl">Email</label><input type="email" id="edit-email" style="border-bottom:1px solid var(--border);padding:10px 0;width:100%;outline:none;font-family:inherit"/></div>
-    <div class="edit-form-actions">
-      <button class="edit-save" onclick="saveEdit()" data-i18n="save_btn">Save Changes</button>
-      <button class="edit-cancel" onclick="closeEdit()" data-i18n="cancel_btn">Cancel</button>
-    </div>
-  </div>
+  <button class="btn-home" onclick="goTo('home')">Return to Home</button>
 </div>
 
 <script>
-// ══════════ STATE ══════════
-const appState = {
-  salon:'', service:'', servicePrice:'', time:'',
-  verifyMethod:'sms'
-};
-let currentUser = null; // {first,last,email,phone,bookings:[]}
-let currentLang = 'en';
+  const state = { salon: '', service: '', time: '' };
 
-// ══════════ I18N ══════════
-const i18n = {
-  en:{
-    brand:'GLAMOURA', hero_eyebrow:'The Art of Beauty Booking',
-    hero_title_em:'Curated', hero_title_rest:'Salons,<br>Elegant Experiences',
-    hero_sub:'Where Your Beauty Journey Begins',
-    book_now:'Book Now', discover_more:'Discover More', scroll:'Scroll',
-    our_philosophy:'Our Philosophy',
-    about_heading:'Beauty that feels effortless, accessible, and deeply <em>personal</em>',
-    about_body:'At Glamoura, we believe that beauty should feel effortless, accessible, and deeply personal.<br><br>Our philosophy is built on the idea that self-care is not a luxury—it is a part of everyday well-being. That\'s why we created a platform that brings together carefully selected salons in one seamless experience, allowing every woman to discover and book beauty services with ease and confidence.<br><br>We value simplicity in design, clarity in choice, and elegance in experience. From the moment you explore salons to the time you confirm your appointment, every step is designed to feel smooth, intuitive, and refined.<br><br>Because at Glamoura, we don\'t just connect you to salons—we elevate your entire beauty journey.',
-    stat1:'Premium Salon Locations', stat2:'Curated Services', stat3:'Moments of Confidence',
-    footer_tagline:'Curated salons, elegant experiences. <br>Your beauty journey starts here.',
-    footer_nav:'Navigate', nav_home:'Home', nav_salons:'Our Salons', nav_services:'Services',
-    footer_follow:'Follow Us', footer_contact:'hello@glamoura.com<br>+966 50 000 0000',
-    footer_copy:'© 2026 Glamoura. All rights reserved.',
-    back:'Back',
-    step_salon:'01 · Salon', step_service:'02 · Service', step_details:'03 · Details',
-    step1_label:'Step 01 of 03', step1_title:'Choose Your <em>Salon</em>',
-    salon1_tag:'Premium Experience', salon1_loc:'Al Olaya, Riyadh', salon1_desc:'A sanctuary of style and sophistication, where every visit is a bespoke journey.',
-    salon2_tag:'Spa & Wellness', salon2_loc:'Hittin, Riyadh', salon2_desc:'Elevated tranquility meets expert artistry for an indulgent full-body experience.',
-    salon3_tag:'Luxury Signature', salon3_loc:'Al Nakheel, Riyadh', salon3_desc:'Where refined aesthetics and bold transformations create timeless beauty.',
-    select_salon:'Select Salon →',
-    step2_label:'Step 02 of 03', step2_title:'Select Your <em>Service</em>',
-    svc1_name:'Manicure & Pedicure', svc1_price:'SAR 150 – 280', svc1_desc:'Precision nail care with premium products and artful finishing touches.',
-    svc2_name:'Hair Service', svc2_price:'SAR 200 – 600', svc2_desc:'Cut, color, blowout, and styling by our master hair artists.',
-    svc3_name:'Spa Service', svc3_price:'SAR 300 – 700', svc3_desc:'Holistic rituals designed to restore, rejuvenate, and revive your senses.',
-    svc4_name:'Massage', svc4_price:'SAR 250 – 500', svc4_desc:'Therapeutic and relaxation massage tailored to your body\'s needs.',
-    select_service:'Select Service',
-    step3_label:'Step 03 of 03', step3_title:'Complete Your <em>Booking</em>',
-    booking_summary:'Booking Summary', salon_lbl:'Salon', service_lbl:'Service',
-    price_lbl:'Price Range', date_lbl:'Date', time_lbl:'Time', time_lbl2:'Available Times',
-    your_details:'Your Details', first_name:'First Name', last_name:'Last Name',
-    email_lbl:'Email Address', select_datetime:'Select Date & Time',
-    year_lbl:'Year', month_lbl:'Month', day_lbl:'Day',
-    sel_year:'— Year —', sel_month:'— Month —', sel_day:'— Day —',
-    past_date_err:'Please select a future date.',
-    confirm_btn:'Confirm Reservation',
-    booking_confirmed:'Booking Confirmed', thank_you:'Thank You,',
-    confirm_sub:'Your appointment has been reserved. A confirmation will be sent to your email. We look forward to welcoming you.',
-    add_cal:'+ Add to Calendar', return_home:'Return to Home',
-    signin_title:'Sign In', welcome_back:'Welcome Back',
-    phone_lbl:'Phone Number', send_otp:'Send Verification Code',
-    or_text:'OR', no_account:"Don't have an account?", register_link:'Register Now',
-    back_home_link:'← Back to Home',
-    otp_title:'Verify Your Number', otp_hint:'We sent a 4-digit code to your phone.',
-    verify_btn:'Verify & Sign In', resend_code:'Resend Code', sim_note:'Demo: use code 1234',
-    signup_title:'Create Account', new_member:'New Member',
-    verify_via:'Verify via', via_sms:'SMS', via_email:'Email',
-    create_send_otp:'Create & Send Code',
-    have_account:'Already have an account?', signin_link:'Sign In',
-    otp_hint_signup:'We sent a 4-digit code to confirm your account.',
-    past_bookings:'Past & Upcoming Bookings', account_settings:'Account Settings',
-    edit_profile:'Edit Profile', notif_settings:'Notification Preferences',
-    change_lang:'Change Language', sign_out:'Sign Out',
-    edit_info:'Edit Information', save_btn:'Save Changes', cancel_btn:'Cancel',
-    notif_soon:'Coming soon!',
-    signin_menu:'Sign In', signup_menu:'Register', profile_menu:'My Profile', signout_menu:'Sign Out',
-    you_selected:'You selected:',
-    fill_all:'Please fill in all fields and select a time slot.',
-    valid_email:'Please enter a valid email address.',
-    booking_ref:'Booking Reference:',
-  },
-  ar:{
-    brand:'غلامورا', hero_eyebrow:'فن الحجز الجميل',
-    hero_title_em:'صالونات مختارة', hero_title_rest:'<br>تجارب راقية',
-    hero_sub:'حيث تبدأ رحلتك في الجمال', book_now:'احجزي الآن', discover_more:'اكتشفي المزيد', scroll:'انتقلي',
-    our_philosophy:'فلسفتنا',
-    about_heading:'جمال يبدو سهلاً، ميسراً، وعميق الشخصية <em>دائماً</em>',
-    about_body:'في غلامورا، نؤمن بأن الجمال يجب أن يكون سهلاً وميسراً وعميق الشخصية.<br><br>فلسفتنا مبنية على أن العناية بالنفس ليست رفاهية، بل هي جزء من الرفاهية اليومية. لذلك أنشأنا منصة تجمع صالونات مختارة بعناية في تجربة واحدة سلسة، تتيح لكل امرأة اكتشاف خدمات التجميل وحجزها بسهولة وثقة.<br><br>نُقدّر البساطة في التصميم، والوضوح في الاختيار، والأناقة في التجربة. من لحظة استكشاف الصالونات حتى تأكيد موعدك، كل خطوة مصممة لتكون سلسة وبديهية وراقية.<br><br>في غلامورا، نحن لا نربطك فقط بالصالونات — بل نرتقي برحلتك الجمالية بأكملها.',
-    stat1:'صالونات مختارة', stat2:'خدمات متكاملة', stat3:'لحظات من الثقة',
-    footer_tagline:'صالونات مختارة، تجارب راقية.<br>رحلتك في الجمال تبدأ هنا.',
-    footer_nav:'تصفح', nav_home:'الرئيسية', nav_salons:'صالوناتنا', nav_services:'الخدمات',
-    footer_follow:'تابعينا', footer_contact:'hello@glamoura.com<br>+966 50 000 0000',
-    footer_copy:'© 2026 غلامورا. جميع الحقوق محفوظة.',
-    back:'رجوع',
-    step_salon:'01 · الصالون', step_service:'02 · الخدمة', step_details:'03 · التفاصيل',
-    step1_label:'الخطوة 01 من 03', step1_title:'اختاري <em>صالونك</em>',
-    salon1_tag:'تجربة مميزة', salon1_loc:'العليا، الرياض', salon1_desc:'ملاذ من الأناقة والتفرد، حيث كل زيارة رحلة خاصة.',
-    salon2_tag:'سبا وعافية', salon2_loc:'حطين، الرياض', salon2_desc:'هدوء راقٍ يلتقي بالإبداع لتجربة جمالية متكاملة.',
-    salon3_tag:'توقيع فاخر', salon3_loc:'النخيل، الرياض', salon3_desc:'حيث يلتقي الجمال الراقي بالتحولات الجريئة لجمال خالد.',
-    select_salon:'اختاري الصالون ←',
-    step2_label:'الخطوة 02 من 03', step2_title:'اختاري <em>خدمتك</em>',
-    svc1_name:'مانيكير وباديكير', svc1_price:'١٥٠ – ٢٨٠ ريال', svc1_desc:'عناية دقيقة بالأظافر بمنتجات فاخرة ولمسات فنية.',
-    svc2_name:'خدمات الشعر', svc2_price:'٢٠٠ – ٦٠٠ ريال', svc2_desc:'قص وصبغ وتصفيف على يد أمهر خبراء الشعر.',
-    svc3_name:'خدمة السبا', svc3_price:'٣٠٠ – ٧٠٠ ريال', svc3_desc:'طقوس شاملة لاستعادة الحيوية وتجديد الحواس.',
-    svc4_name:'المساج', svc4_price:'٢٥٠ – ٥٠٠ ريال', svc4_desc:'مساج علاجي ومريح مصمم لاحتياجات جسمك.',
-    select_service:'اختاري الخدمة',
-    step3_label:'الخطوة 03 من 03', step3_title:'أتمي <em>حجزك</em>',
-    booking_summary:'ملخص الحجز', salon_lbl:'الصالون', service_lbl:'الخدمة',
-    price_lbl:'نطاق السعر', date_lbl:'التاريخ', time_lbl:'الوقت', time_lbl2:'المواعيد المتاحة',
-    your_details:'بياناتك', first_name:'الاسم الأول', last_name:'اسم العائلة',
-    email_lbl:'البريد الإلكتروني', select_datetime:'اختاري التاريخ والوقت',
-    year_lbl:'السنة', month_lbl:'الشهر', day_lbl:'اليوم',
-    sel_year:'— السنة —', sel_month:'— الشهر —', sel_day:'— اليوم —',
-    past_date_err:'الرجاء اختيار تاريخ مستقبلي.',
-    confirm_btn:'تأكيد الحجز',
-    booking_confirmed:'تم تأكيد الحجز', thank_you:'شكراً لك،',
-    confirm_sub:'تم تأكيد موعدك. سيُرسل إليكِ تأكيد على بريدك الإلكتروني. يسعدنا استقبالكِ.',
-    add_cal:'+ إضافة للتقويم', return_home:'العودة للرئيسية',
-    signin_title:'تسجيل الدخول', welcome_back:'مرحباً بعودتك',
-    phone_lbl:'رقم الجوال', send_otp:'إرسال رمز التحقق',
-    or_text:'أو', no_account:'ليس لديكِ حساب؟', register_link:'تسجيل جديد',
-    back_home_link:'← العودة للرئيسية',
-    otp_title:'تحقق من رقمك', otp_hint:'أرسلنا رمزاً مكوناً من 4 أرقام إلى جوالك.',
-    verify_btn:'تحقق وادخلي', resend_code:'إعادة إرسال الرمز', sim_note:'تجريبي: استخدمي الرمز 1234',
-    signup_title:'إنشاء حساب', new_member:'عضو جديد',
-    verify_via:'التحقق عبر', via_sms:'رسالة نصية', via_email:'البريد الإلكتروني',
-    create_send_otp:'إنشاء حساب وإرسال الرمز',
-    have_account:'لديكِ حساب بالفعل؟', signin_link:'تسجيل الدخول',
-    otp_hint_signup:'أرسلنا رمزاً لتأكيد حسابك.',
-    past_bookings:'حجوزاتك السابقة والقادمة', account_settings:'إعدادات الحساب',
-    edit_profile:'تعديل الملف', notif_settings:'إعدادات الإشعارات',
-    change_lang:'تغيير اللغة', sign_out:'تسجيل الخروج',
-    edit_info:'تعديل المعلومات', save_btn:'حفظ التغييرات', cancel_btn:'إلغاء',
- notif_soon:'قريباً!',
-    signin_menu:'تسجيل الدخول', signup_menu:'تسجيل جديد', profile_menu:'ملفي الشخصي', signout_menu:'تسجيل الخروج',
-    you_selected:'اخترتِ:',
-    fill_all:'الرجاء تعبئة جميع الحقول واختيار وقت.',
-    valid_email:'الرجاء إدخال بريد إلكتروني صحيح.',
-    booking_ref:'رقم الحجز:',
+  const times = [
+    '9:00 AM','9:30 AM','10:00 AM','10:30 AM',
+    '11:00 AM','11:30 AM','12:00 PM','12:30 PM',
+    '1:00 PM','1:30 PM','2:00 PM','2:30 PM',
+    '3:00 PM','3:30 PM','4:00 PM','4:30 PM',
+    '5:00 PM','5:30 PM','6:00 PM','6:30 PM'
+  ];
+  const disabledTimes = ['9:30 AM','11:00 AM','2:00 PM','4:30 PM','6:00 PM'];
+
+  const navDarkPages = ['home','services','confirm'];
+  function setNav(pageId) {
+    document.getElementById('main-nav').className =
+      navDarkPages.includes(pageId) ? 'dark' : 'light';
   }
-};
-function t(key){
-     return (i18n[currentLang] && i18n[currentLang][key]) || (il18n.en && il18n.en[key]) || key; }
 
-function applyTranslations(){
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const key = el.getAttribute('data-i18n');
-    const txt = t(key);
-    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA') el.placeholder=txt;
-    else el.innerHTML = txt;
-  });
-}
-
-function setLang(lang){
-  currentLang = lang;
-  const html = document.getElementById('html-root');
-  if(lang==='ar'){
-    html.setAttribute('lang','ar');
-    html.setAttribute('dir','rtl');
-    document.body.classList.add('ar');
-    document.getElementById('btn-ar').classList.add('active');
-    document.getElementById('btn-en').classList.remove('active');
-  } else {
-    html.setAttribute('lang','en');
-    html.setAttribute('dir','ltr');
-    document.body.classList.remove('ar');
-    document.getElementById('btn-en').classList.add('active');
-    document.getElementById('btn-ar').classList.remove('active');
+  function goTo(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + pageId).classList.add('active');
+    setNav(pageId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  applyTranslations();
-  updateDropdown();
-}
 
-// ══════════ ROUTING ══════════
-const darkPages = ['home','services','confirm','signin','otp-signin','signup','otp-signup'];
-let prevPage = 'home';
-
-function goTo(pageId){
-  const overlay = document.getElementById('transition-overlay');
-  overlay.classList.add('show');
-  setTimeout(()=>{
-    prevPage = document.querySelector('.page.active')?.id.replace('page-','') || 'home';
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.getElementById('page-'+pageId).classList.add('active');
-    const nav = document.getElementById('main-nav');
-    nav.className = darkPages.includes(pageId) ? 'dark' : 'light';
-    window.scrollTo({top:0});
-    overlay.classList.remove('show');
-  }, 300);
-}
-function goBack(){ goTo(prevPage); }
-function scrollToAbout(){ document.getElementById('about-strip').scrollIntoView({behavior:'smooth'}); }
-
-// ══════════ DROPDOWN ══════════
-function toggleDropdown(){
-  document.getElementById('profile-dropdown').classList.toggle('open');
-}
-document.addEventListener('click', e=>{
-  const btn = document.getElementById('profile-btn');
-  const dd = document.getElementById('profile-dropdown');
-  if(!btn.contains(e.target) && !dd.contains(e.target)) dd.classList.remove('open');
-});
-
-function updateDropdown(){
-  const dd = document.getElementById('profile-dropdown');
-  const pb = document.getElementById('profile-btn');
-  if(currentUser){
-    pb.classList.add('logged-in');
-    dd.innerHTML = `
-      <button class="dropdown-item gold" onclick="goTo('profile');toggleDropdown()">👤 ${currentUser.first} ${currentUser.last}</button>
-      <div class="dropdown-divider"></div>
-      <button class="dropdown-item" onclick="goTo('profile');toggleDropdown()" data-i18n="profile_menu">${t('profile_menu')}</button>
-      <button class="dropdown-item" onclick="logout();toggleDropdown()" data-i18n="signout_menu">${t('signout_menu')}</button>`;
-  } else {
-    pb.classList.remove('logged-in');
-    dd.innerHTML = `
-      <button class="dropdown-item" onclick="goTo('signin');toggleDropdown()" data-i18n="signin_menu">${t('signin_menu')}</button>
-      <button class="dropdown-item" onclick="goTo('signup');toggleDropdown()" data-i18n="signup_menu">${t('signup_menu')}</button>`;
+  function scrollToAbout() {
+    document.getElementById('about-strip').scrollIntoView({ behavior: 'smooth' });
   }
-}
 
-// ══════════ SALON / SERVICE ══════════
-function selectSalon(name){
-  appState.salon = name;
-  document.getElementById('services-chosen-label').textContent = t('you_selected') + ' ' + name;
-  goTo('services');
-}
-function selectService(name, price){
-  appState.service = name;
-  appState.servicePrice = price;
-  document.getElementById('sum-salon').textContent = appState.salon;
-  document.getElementById('sum-service').textContent = name;
-  document.getElementById('sum-price').textContent = price;
-  buildTimeGrid();
- updateDays();
-  goTo('booking');
-}
-
-// ══════════ BOOKING FORM ══════════
-const times=['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM','6:30 PM'];
-const disabledTimes=['9:30 AM','11:00 AM','2:00 PM','4:30 PM','6:00 PM'];
-
-function buildTimeGrid(){
-  const grid=document.getElementById('time-grid');
-  grid.innerHTML=''; appState.time='';
-  times.forEach(t=>{
-    const btn=document.createElement('button');
-    btn.className='time-slot'+(disabledTimes.includes(t)?' disabled':'');
-    btn.textContent=t;
-    btn.onclick=()=>{
-      document.querySelectorAll('.time-slot').forEach(b=>b.classList.remove('selected'));
-      btn.classList.add('selected'); appState.time=t; updateSummary();
-    };
-    grid.appendChild(btn);
-  });
-}
-
-function updateDays(){
-  const y=parseInt(document.getElementById('f-year').value)||2026;
-  const m=parseInt(document.getElementById('f-month').value)||1;
-  const days=new Date(y,m,0).getDate();
-  const sel=document.getElementById('f-day');
-  sel.innerHTML=`<option value="">${t('sel_day')}</option>`;
-  for(let d=1;d<=days;d++){
-    const o=document.createElement('option');
-    o.value=String(d).padStart(2,'0'); o.textContent=d;
-    sel.appendChild(o);
+  function selectSalon(name) {
+    state.salon = name;
+    document.getElementById('services-chosen-label').textContent = 'You selected: ' + name;
+    goTo('services');
   }
-}
 
-function validateDate(){
-  const y=document.getElementById('f-year').value;
-  const m=document.getElementById('f-month').value;
-  const d=document.getElementById('f-day').value;
-  const err=document.getElementById('date-error');
-  if(y&&m&&d){
-    const sel=new Date(parseInt(y),parseInt(m)-1,parseInt(d));
-    const today=new Date(); today.setHours(0,0,0,0);
-    err.style.display = sel < today ? 'block' : 'none';
+  function selectService(name) {
+    state.service = name;
+    document.getElementById('sum-salon').textContent = state.salon;
+    document.getElementById('sum-service').textContent = name;
+    buildTimeGrid();
+    updateDays();
+    goTo('booking');
   }
-}
 
-function updateSummary(){
-  const y=document.getElementById('f-year').value;
-  const m=document.getElementById('f-month').value;
-  const d=document.getElementById('f-day').value;
-  if(y&&m&&d){
-    const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    document.getElementById('sum-date').textContent=d+' '+months[parseInt(m)-1]+' '+y;
-  } else document.getElementById('sum-date').textContent='—';
-  document.getElementById('sum-time').textContent=appState.time||'—';
-}
-
-function submitBooking(){
-  const first=document.getElementById('f-first').value.trim();
-  const last=document.getElementById('f-last').value.trim();
-  const email=document.getElementById('f-email').value.trim();
-  const y=document.getElementById('f-year').value;
-  const m=document.getElementById('f-month').value;
-  const d=document.getElementById('f-day').value;
-  if(!first||!last||!email||!y||!m||!d||!appState.time){alert(t('fill_all'));return;}
-  if(!email.includes('@')){alert(t('valid_email'));return;}
-  const errEl=document.getElementById('date-error');
-  if(errEl.style.display==='block'){alert(t('past_date_err'));return;}
-  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const dateStr=d+' '+months[parseInt(m)-1]+' '+y;
-  const ref='GLA-'+Math.random().toString(36).substr(2,6).toUpperCase();
-  document.getElementById('conf-name').textContent=first+' '+last;
-  document.getElementById('conf-salon').textContent=appState.salon;
-  document.getElementById('conf-service').textContent=appState.service;
-  document.getElementById('conf-date').textContent=dateStr;
-  document.getElementById('conf-time').textContent=appState.time;
-  document.getElementById('conf-ref').textContent=t('booking_ref')+' '+ref;
-  // Save to user history
-  if(currentUser){
-    currentUser.bookings = currentUser.bookings||[];
-    currentUser.bookings.unshift({salon:appState.salon,service:appState.service,date:dateStr,time:appState.time,status:'upcoming',ref});
-  }
-  goTo('confirm');
-}
-
-function addToCalendar(){
-  alert('Calendar integration would open here in a live deployment.');
-}
-
-// ══════════ AUTH ══════════
-let verifyMethodChoice = 'sms';
-function setVerifyMethod(m){
-  verifyMethodChoice = m;
-  document.getElementById('verify-sms').classList.toggle('active', m==='sms');
-  document.getElementById('verify-email').classList.toggle('active', m==='email');
-}
-
-function sendOtp(flow){
-  if(flow==='signin'){
-    const phone = document.getElementById('signin-phone').value.trim();
-    if(!phone){alert(t('phone_lbl'));return;}
-    const code = document.getElementById('signin-code').value;
-    document.getElementById('otp-hint-signin').textContent = t('otp_hint') + ' (' + code + phone + ')';
-    goTo('otp-signin');
-  } else {
-    const first=document.getElementById('reg-first').value.trim();
-    const last=document.getElementById('reg-last').value.trim();
-    const phone=document.getElementById('reg-phone').value.trim();
-    const email=document.getElementById('reg-email').value.trim();
-    if(!first||!last||!phone||!email){alert(t('fill_all'));return;}
-    document.getElementById('otp-hint-signup').textContent = t('otp_hint_signup');
-    goTo('otp-signup');
-  }
-}
-
-function otpNext(el, nextId){
-  if(el.value && nextId) document.getElementById(nextId).focus();
-}
-function otpBack(e, el, prevId){
-  if(e.key==='Backspace' && !el.value && prevId) document.getElementById(prevId).focus();
-}
-
-function verifyOtp(flow){
-  const ids = flow==='signin' ? ['otp-s1','otp-s2','otp-s3','otp-s4'] : ['otp-r1','otp-r2','otp-r3','otp-r4'];
-  const code = ids.map(id=>document.getElementById(id).value).join('');
-  if(code!=='1234'){alert('Incorrect code. Demo: use 1234');return;}
-  if(flow==='signin'){
-    // Find user by phone (demo: just log in)
-    const phone = document.getElementById('signin-phone').value.trim();
-    currentUser = currentUser || {first:'Guest',last:'User',email:'',phone,bookings:[]};
-  } else {
-    currentUser = {
-      first: document.getElementById('reg-first').value.trim(),
-      last: document.getElementById('reg-last').value.trim(),
-      email: document.getElementById('reg-email').value.trim(),
-      phone: document.getElementById('reg-phone').value.trim(),
-      bookings: []
-    };
-    // Pre-fill booking form
-    document.getElementById('f-first').value = currentUser.first;
-    document.getElementById('f-last').value = currentUser.last;
-    document.getElementById('f-email').value = currentUser.email;
-  }
-  updateDropdown();
-  loadProfile();
-  goTo('home');
-}
-
-function logout(){
-  currentUser = null;
-  updateDropdown();
-  goTo('home');
-}
-
-// ══════════ PROFILE ══════════
-function loadProfile(){
-  if(!currentUser) return;
-  const initials = (currentUser.first[0]||'') + (currentUser.last[0]||'');
-  document.getElementById('p-avatar').textContent = initials.toUpperCase();
-  document.getElementById('p-fullname').textContent = currentUser.first + ' ' + currentUser.last;
-  document.getElementById('p-contact').textContent = currentUser.email || currentUser.phone;
-  // Bookings
-  const hist = document.getElementById('booking-history');
-  hist.innerHTML = '';
-  const bookings = currentUser.bookings||[];
-  if(bookings.length===0){
-    hist.innerHTML = <p style="color:var(--text-muted);font-size:13px;padding:20px 0">${currentLang==='ar'?'لا توجد حجوزات بعد.':'No bookings yet.'}</p>;
-  } else {
-    bookings.forEach(b=>{
-      hist.innerHTML += `<div class="booking-history-item">
-        <div class="bh-left">
-          <div class="bh-salon">${b.salon}</div>
-          <div class="bh-service">${b.service}</div>
-        </div>
-        <div class="bh-right">
-          <div class="bh-date">${b.date} · ${b.time}</div>
-          <span class="bh-badge ${b.status}">${b.status==='upcoming'?(currentLang==='ar'?'قادم':'Upcoming'):(currentLang==='ar'?'مكتمل':'Completed')}</span>
-        </div>
-      </div>`;
+  function buildTimeGrid() {
+    const grid = document.getElementById('time-grid');
+    grid.innerHTML = '';
+    state.time = '';
+    times.forEach(t => {
+      const btn = document.createElement('button');
+      btn.className = 'time-slot' + (disabledTimes.includes(t) ? ' disabled' : '');
+      btn.textContent = t;
+      btn.onclick = () => {
+        document.querySelectorAll('.time-slot').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        state.time = t;
+        updateSummary();
+      };
+      grid.appendChild(btn);
     });
   }
-}
 
-function openEdit(){
-  document.getElementById('edit-first').value = currentUser.first;
-  document.getElementById('edit-last').value = currentUser.last;
-  document.getElementById('edit-email').value = currentUser.email;
-  document.getElementById('edit-overlay').classList.add('open');
-}
-function closeEdit(){ document.getElementById('edit-overlay').classList.remove('open'); }
-function saveEdit(){
-  currentUser.first = document.getElementById('edit-first').value.trim() || currentUser.first;
-  currentUser.last = document.getElementById('edit-last').value.trim() || currentUser.last;
-  currentUser.email = document.getElementById('edit-email').value.trim() || currentUser.email;
-  closeEdit();
-  loadProfile();
-  updateDropdown();
-}
+  function updateDays() {
+    const y = parseInt(document.getElementById('f-year').value) || 2026;
+    const m = parseInt(document.getElementById('f-month').value) || 1;
+    const days = new Date(y, m, 0).getDate();
+    const sel = document.getElementById('f-day');
+    sel.
+ innerHTML = '<option value="">— Select Day —</option>';
+    for (let d = 1; d <= days; d++) {
+      const o = document.createElement('option');
+      o.value = String(d).padStart(2,'0');
+      o.textContent = d;
+      sel.appendChild(o);
+    }
+  }
 
-// Override goTo for profile to refresh
-const _goTo = goTo;
+  function updateSummary() {
+    const y = document.getElementById('f-year').value;
+    const m = document.getElementById('f-month').value;
+    const d = document.getElementById('f-day').value;
+    if (y && m && d) {
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      document.getElementById('sum-date').textContent = d + ' ' + months[parseInt(m)-1] + ' ' + y;
+    } else {
+      document.getElementById('sum-date').textContent = '—';
+    }
+    document.getElementById('sum-time').textContent = state.time || '—';
+  }
 
-// ══════════ INIT ══════════
-buildTimeGrid();
-updateDays();
-updateDropdown();
-applyTranslations();
+  function submitBooking() {
+    const first = document.getElementById('f-first').value.trim();
+    const last  = document.getElementById('f-last').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const y = document.getElementById('f-year').value;
+    const m = document.getElementById('f-month').value;
+    const d = document.getElementById('f-day').value;
+
+    if (!first || !last || !email || !y || !m || !d || !state.time) {
+      alert('Please fill in all fields and select a time slot.');
+      return;
+    }
+    if (!email.includes('@')) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    const months = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+    const dateStr = d + ' ' + months[parseInt(m)-1] + ' ' + y;
+
+    document.getElementById('conf-name').textContent    = first + ' ' + last;
+    document.getElementById('conf-salon').textContent   = state.salon;
+    document.getElementById('conf-service').textContent = state.service;
+    document.getElementById('conf-date').textContent    = dateStr;
+    document.getElementById('conf-time').textContent    = state.time;
+
+    goTo('confirm');
+  }
+
+  buildTimeGrid();
+  updateDays();
 </script>
 </body>
 </html>
