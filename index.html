@@ -1,0 +1,921 @@
+[17/11/47 10:17 م] S: <!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Glamoura — Book Your Experience</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f0eb;
+      --beige: #e8ddd3;
+      --warm-white: #faf8f5;
+      --black: #0d0d0d;
+      --charcoal: #1a1a1a;
+      --gold: #b5996a;
+      --gold-light: #d4b896;
+      --text-muted: #6b6460;
+      --border: rgba(0,0,0,0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--warm-white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* ─── PAGE SYSTEM ─── */
+    .page { display: none; min-height: 100vh; animation: fadeIn 0.6s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 60px;
+      mix-blend-mode: normal;
+    }
+    nav.dark { background: rgba(13,13,13,0.95); backdrop-filter: blur(12px); }
+    nav.light { background: rgba(250,248,245,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 600; letter-spacing: 4px;
+      text-transform: uppercase; cursor: pointer;
+    }
+    nav.dark .nav-logo { color: #fff; }
+    nav.light .nav-logo { color: var(--black); }
+
+    .nav-book {
+      font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+      padding: 10px 28px; border: 1px solid currentColor;
+      background: transparent; cursor: pointer; font-family: 'Montserrat', sans-serif;
+      transition: all 0.3s;
+    }
+    nav.dark .nav-book { color: #fff; }
+    nav.dark .nav-book:hover { background: #fff; color: var(--black); }
+    nav.light .nav-book { color: var(--black); }
+    nav.light .nav-book:hover { background: var(--black); color: #fff; }
+
+    /* ─── LANDING PAGE ─── */
+    #page-home { background: var(--black); }
+
+    .hero {
+      position: relative; height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      position: relative; overflow: hidden;
+      display: flex; align-items: flex-end; padding: 80px 60px;
+    }
+    .hero-left img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; filter: brightness(0.55);
+      transition: transform 8s ease;
+    }
+    .hero:hover .hero-left img { transform: scale(1.04); }
+
+    .hero-right {
+      display: grid; grid-template-rows: 1fr 1fr; overflow: hidden;
+    }
+    .hero-right-top, .hero-right-bottom {
+      position: relative; overflow: hidden;
+    }
+    .hero-right-top img, .hero-right-bottom img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; filter: brightness(0.55);
+      transition: transform 8s ease;
+    }
+    .hero:hover .hero-right-top img,
+    .hero:hover .hero-right-bottom img { transform: scale(1.04); }
+
+    .hero-text {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center; color: #fff; z-index: 10;
+      padding: 40px;
+    }
+
+    .hero-eyebrow {
+      font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 24px;
+      font-weight: 400;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 7vw, 96px);
+      font-weight: 300; line-height: 1.0;
+      letter-spacing: -1px; margin-bottom: 20px;
+    }
+ .hero-title em { font-style: italic; color: var(--gold-light); }
+
+    .hero-sub {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.55); margin-bottom: 48px;
+      font-weight: 300;
+    }
+
+    .hero-cta {
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    }
+
+    .btn-primary {
+      background: var(--gold); color: #fff;
+      border: none; padding: 16px 44px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .btn-outline {
+      background: transparent; color: #fff;
+      border: 1px solid rgba(255,255,255,0.4); padding: 16px 44px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
+
+    /* Scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.4); font-size: 9px; letter-spacing: 3px;
+      text-transform: uppercase; z-index: 10;
+    }
+    .scroll-line {
+      width: 1px; height: 48px; background: rgba(255,255,255,0.2);
+      position: relative; overflow: hidden;
+    }
+    .scroll-line::after {
+      content: ''; position: absolute; top: -100%;
+      width: 1px; height: 100%; background: var(--gold-light);
+      animation: scrollAnim 2s ease infinite;
+    }
+    @keyframes scrollAnim { to { top: 200%; } }
+
+    /* About strip */
+    .about-strip {
+      background: var(--cream); padding: 100px 120px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .about-label {
+      font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .about-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 3.5vw, 52px); font-weight: 300; line-height: 1.2;
+      margin-bottom: 24px;
+    }
+    .about-heading em { font-style: italic; }
+    .about-body {
+      font-size: 13px; line-height: 2; color: var(--text-muted); font-weight: 300;
+    }
+    .about-right { display: flex; flex-direction: column; gap: 40px; }
+    .about-stat { border-top: 1px solid var(--border); padding-top: 24px; }
+    .about-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px; font-weight: 300; color: var(--black); line-height: 1;
+    }
+    .about-stat-label {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-muted); margin-top: 4px;
+    }
+
+    /* ─── SALON SELECTION PAGE ─── */
+    #page-salons { background: var(--warm-white); padding-top: 100px; }
+
+    .section-header {
+      text-align: center; padding: 60px 40px 40px;
+    }
+    .section-label {
+      font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 64px); font-weight: 300; line-height: 1.1;
+    }
+    .section-title em { font-style: italic; }
+
+    .breadcrumb {
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 60px; margin-bottom: 20px;
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .breadcrumb span { color: var(--gold); }
+    .breadcrumb-sep { color: var(--border); }
+
+    .salons-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; padding: 0 60px 80px;
+    }
+
+    .salon-card {
+      position: relative; height: 520px; overflow: hidden; cursor: pointer;
+      background: var(--black);
+    }
+    .salon-card img {
+      width: 100%; height: 100%; object-fit: cover;
+ filter: brightness(0.45); transition: all 0.6s ease;
+    }
+    .salon-card:hover img { filter: brightness(0.3); transform: scale(1.05); }
+
+    .salon-card-content {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 40px;
+      color: #fff;
+    }
+
+    .salon-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 72px; font-weight: 300;
+      color: rgba(255,255,255,0.08); line-height: 1;
+      position: absolute; top: 20px; right: 30px;
+    }
+
+    .salon-tag {
+      font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 12px;
+    }
+    .salon-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px; font-weight: 300; margin-bottom: 12px;
+    }
+    .salon-desc {
+      font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.7;
+      font-weight: 300; margin-bottom: 28px;
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+    }
+    .salon-card:hover .salon-desc { max-height: 80px; }
+    .salon-select-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #fff; border: 1px solid rgba(255,255,255,0.3);
+      padding: 12px 24px; background: transparent;
+      font-family: 'Montserrat', sans-serif; cursor: pointer;
+      transition: all 0.3s; opacity: 0; transform: translateY(8px);
+    }
+    .salon-card:hover .salon-select-btn {
+      opacity: 1; transform: translateY(0);
+      border-color: var(--gold-light); color: var(--gold-light);
+    }
+
+    /* ─── SERVICES PAGE ─── */
+    #page-services { background: var(--black); padding-top: 100px; }
+    #page-services .section-title { color: #fff; }
+    #page-services .section-label { color: var(--gold-light); }
+    #page-services .breadcrumb { color: rgba(255,255,255,0.4); }
+    #page-services .breadcrumb span { color: var(--gold-light); }
+
+    .services-chosen {
+      text-align: center; padding: 0 40px 60px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; color: rgba(255,255,255,0.5); font-style: italic;
+    }
+
+    .services-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 2px; padding: 0 60px 80px;
+    }
+
+    .service-card {
+      position: relative; height: 400px; overflow: hidden; cursor: pointer;
+      background: var(--charcoal);
+    }
+    .service-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.35); transition: all 0.6s ease;
+    }
+    .service-card:hover img { filter: brightness(0.2); transform: scale(1.04); }
+
+    .service-card-content {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center; color: #fff; padding: 40px;
+    }
+
+    .service-icon {
+      font-size: 32px; margin-bottom: 20px; opacity: 0.6;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .service-card:hover .service-icon { opacity: 1; transform: scale(1.1); }
+
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px; font-weight: 300; margin-bottom: 12px;
+    }
+    .service-detail {
+      font-size: 11px; letter-spacing: 1px; color: rgba(255,255,255,0.45);
+      margin-bottom: 28px; line-height: 1.8; font-weight: 300;
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+    }
+    .service-card:hover .service-detail { max-height: 60px; }
+    .service-pick-btn {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold-light); border: 1px solid var(--gold-light);
+      padding: 12px 32px; background: transparent;
+      font-family: 'Montserrat', sans-serif; cursor: pointer;
+      transition: all 0.3s; opacity: 0; transform: translateY(8px);
+    }
+    .service-card:hover .service-pick-btn {
+      opacity: 1; transform: translateY(0);
+    }
+    .service-pick-btn:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+
+    /* ─── BOOKING FORM PAGE ─── */
+    #page-booking { background: var(--cream); padding-top: 100px; }
+    #page-booking .section-label { color: var(--gold); }
+
+    .booking-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; padding: 0 60px 80px; min-height: 60vh;
+    }
+
+    .booking-summary {
+      background: var(--black); color: #fff;
+      padding: 60px 50px; display: flex; flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .summary-label {
+      font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 40px;
+    }
+    .summary-item {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 20px 0;
+    }
+    .summary-item-key {
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-bottom: 6px;
+    }
+    .summary-item-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px; font-weight: 300;
+    }
+    .booking-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; font-style: italic;
+      color: rgba(255,255,255,0.3); line-height: 1.7;
+      margin-top: 40px;
+    }
+
+    .booking-form-wrap {
+      background: #fff; padding: 60px 50px;
+    }
+    .form-section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px; font-weight: 300; margin-bottom: 36px;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { margin-bottom: 24px; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    label {
+      display: block; font-size: 9px; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      width: 100%; padding: 14px 0; font-size: 14px;
+      background: transparent; border: none; border-bottom: 1px solid var(--border);
+      font-family: 'Montserrat', sans-serif; color: var(--black);
+      outline: none; transition: border-color 0.3s; appearance: none;
+      font-weight: 300;
+    }
+    input:focus, select:focus { border-bottom-color: var(--gold); }
+    input::placeholder { color: rgba(0,0,0,0.2); }
+
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '↓'; position: absolute; right: 4px; top: 50%;
+      transform: translateY(-50%); color: var(--gold); pointer-events: none;
+      font-size: 12px;
+    }
+
+    .time-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    }
+    .time-slot {
+      padding: 10px 6px; text-align: center;
+      border: 1px solid var(--border); cursor: pointer;
+      font-size: 11px; font-family: 'Montserrat', sans-serif;
+      font-weight: 300; color: var(--text-muted);
+      transition: all 0.2s; background: transparent;
+    }
+    .time-slot:hover { border-color: var(--gold); color: var(--gold); }
+    .time-slot.selected {
+      background: var(--gold); border-color: var(--gold);
+      color: #fff;
+    }
+    .time-slot.disabled {
+      opacity: 0.3; cursor: default; pointer-events: none;
+    }
+
+    .divider {
+      height: 1px; background: var(--border); margin: 32px 0;
+    }
+
+    .submit-btn {
+      width: 100%; padding: 18px; background: var(--black);
+      color: #fff; border: none; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      transition: all 0.3s;
+    }
+    .submit-btn:hover { background: var(--gold); transform: translateY(-2px); }
+
+    /* ─── CONFIRMATION PAGE ─── */
+    #page-confirm {
+      background: var(--black); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; min-height: 100vh;
+      text-align: center; padding: 120px 40px 80px; color: #fff;
+    }
+
+    .confirm-icon {
+      width: 72px; height: 72px; border: 1px solid var(--gold);
+      border-radius: 50%; display: flex; align-items: center;
+     justify-content: center; margin: 0 auto 40px;
+      font-size: 28px; animation: popIn 0.5s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .confirm-label {
+      font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 20px;
+    }
+    .confirm-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 5vw, 72px); font-weight: 300;
+      line-height: 1.1; margin-bottom: 20px;
+    }
+    .confirm-title em { font-style: italic; color: var(--gold-light); }
+    .confirm-sub {
+      font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.9;
+      font-weight: 300; max-width: 480px; margin: 0 auto 50px;
+    }
+
+    .confirm-details {
+      display: flex; gap: 60px; justify-content: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 40px 60px; margin-bottom: 50px;
+    }
+    .confirm-detail-item { text-align: center; }
+    .confirm-detail-key {
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); margin-bottom: 8px;
+    }
+    .confirm-detail-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 300;
+    }
+
+    .btn-home {
+      background: transparent; color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 14px 48px; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      transition: all 0.3s;
+    }
+    .btn-home:hover { border-color: var(--gold-light); color: var(--gold-light); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .about-strip { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
+      .salons-grid { grid-template-columns: 1fr; padding: 0 24px 60px; }
+      .salon-card { height: 380px; }
+      .services-grid { grid-template-columns: 1fr; padding: 0 24px 60px; }
+      .service-card { height: 320px; }
+      .booking-layout { grid-template-columns: 1fr; padding: 0 24px 60px; }
+      .breadcrumb { padding: 0 24px; }
+      .confirm-details { flex-wrap: wrap; gap: 32px; padding: 30px 24px; }
+      .time-grid { grid-template-columns: repeat(3, 1fr); }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="main-nav" class="dark">
+  <div class="nav-logo" onclick="goTo('home')">GLAMOURA</div>
+</nav>
+
+<!-- PAGE 1 — LANDING -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-left">
+      <img src="IMG_2889.jpeg" alt="Hair styling" />
+    </div>
+    <div class="hero-right">
+      <div class="hero-right-top">
+        <img src="IMG_2891.jpeg" alt="Color treatment" />
+      </div>
+      <div class="hero-right-bottom">
+        <img src="IMG_2888.jpeg" alt="Hair tools" />
+      </div>
+    </div>
+    <div class="hero-text">
+      <div class="hero-eyebrow">The Art of Beauty Booking</div>
+      <h1 class="hero-title">
+        <em>Curated</em> Salons,<br>Elegant Experiences
+      </h1>
+      <p class="hero-sub">Where Your Beauty Journey Begins</p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="goTo('salons')">Book Now</button>
+        <button class="btn-outline" onclick="scrollToAbout()">Discover More</button>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <div class="about-strip" id="about-strip">
+    <div class="about-left">
+      <p class="about-label">Our Philosophy</p>
+      <h2 class="about-heading">Beauty that feels effortless, accessible, and deeply <em>personal</em></h2>
+      <p class="about-body">
+        At Glamoura, we believe that beauty should feel effortless, accessible, and deeply personal.<br><br>
+[17/11/47 10:17 م] S: Our philosophy is built on the idea that self-care is not a luxury—it is a part of everyday well-being. That's why we created a platform that brings together carefully selected salons in one seamless experience, allowing every woman to discover and book beauty services with ease and confidence.<br><br>
+        We value simplicity in design, clarity in choice, and elegance in experience. From the moment you explore salons to the time you confirm your appointment, every step is designed to feel smooth, intuitive, and refined.<br><br>
+        Because at Glamoura, we don't just connect you to salons—we elevate your entire beauty journey.
+      </p>
+    </div>
+    <div class="about-right">
+      <div class="about-stat">
+        <div class="about-stat-num">03</div>
+        <div class="about-stat-label">Premium Salon Locations</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num">04</div>
+        <div class="about-stat-label">Curated Services</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num">∞</div>
+        <div class="about-stat-label">Moments of Confidence</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 2 — CHOOSE SALON -->
+<div id="page-salons" class="page">
+  <div class="section-header">
+    <p class="section-label">Step 01 of 03</p>
+    <h2 class="section-title">Choose Your <em>Salon</em></h2>
+  </div>
+  <div class="salons-grid">
+    <div class="salon-card" onclick="selectSalon('Resha')">
+      <img src="IMG_2890.jpeg" alt="Resha Salon" />
+      <div class="salon-card-content">
+        <div class="salon-number">01</div>
+        <p class="salon-tag">Premium Experience</p>
+        <h3 class="salon-name">Resha</h3>
+        <p class="salon-desc">A sanctuary of style and sophistication, where every visit is a bespoke journey.</p>
+        <button class="salon-select-btn">Select Salon →</button>
+      </div>
+    </div>
+    <div class="salon-card" onclick="selectSalon('Swan Spa')">
+      <img src="IMG_2891.jpeg" alt="Swan Spa" />
+      <div class="salon-card-content">
+        <div class="salon-number">02</div>
+        <p class="salon-tag">Spa & Wellness</p>
+        <h3 class="salon-name">Swan Spa</h3>
+        <p class="salon-desc">Elevated tranquility meets expert artistry for an indulgent full-body experience.</p>
+        <button class="salon-select-btn">Select Salon →</button>
+      </div>
+    </div>
+    <div class="salon-card" onclick="selectSalon('Black Diamond')">
+      <img src="IMG_2889.jpeg" alt="Black Diamond Salon" />
+      <div class="salon-card-content">
+        <div class="salon-number">03</div>
+        <p class="salon-tag">Luxury Signature</p>
+        <h3 class="salon-name">Black Diamond</h3>
+        <p class="salon-desc">Where refined aesthetics and bold transformations create timeless beauty.</p>
+        <button class="salon-select-btn">Select Salon →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 3 — CHOOSE SERVICE -->
+<div id="page-services" class="page">
+  <div class="section-header">
+    <p class="section-label">Step 02 of 03</p>
+    <h2 class="section-title">Select Your <em>Service</em></h2>
+  </div>
+  <p class="services-chosen" id="services-chosen-label"></p>
+  <div class="services-grid">
+    <div class="service-card" onclick="selectService('Manicure & Pedicure')">
+      <img src="IMG_2888.jpeg" alt="Manicure and Pedicure" />
+      <div class="service-card-content">
+        <div class="service-icon">💅</div>
+        <h3 class="service-name">Manicure & Pedicure</h3>
+        <p class="service-detail">Precision nail care with premium products and artful finishing touches.</p>
+        <button class="service-pick-btn">Select Service</button>
+      </div>
+    </div>
+    <div class="service-card" onclick="selectService('Hair Service')">
+      <img src="IMG_2889.jpeg" alt="Hair Service" />
+      <div class="service-card-content">
+        <div class="service-icon">✂️</div>
+        <h3 class="service-name">Hair Service</h3>
+        <p class="service-detail">Cut, color, blowout, and styling by our master hair artists.</p>
+[17/11/47 10:17 م] S: <button class="service-pick-btn">Select Service</button>
+      </div>
+    </div>
+    <div class="service-card" onclick="selectService('Spa Service')">
+      <img src="IMG_2890.jpeg" alt="Spa Service" />
+      <div class="service-card-content">
+        <div class="service-icon">🌿</div>
+        <h3 class="service-name">Spa Service</h3>
+        <p class="service-detail">Holistic rituals designed to restore, rejuvenate, and revive your senses.</p>
+        <button class="service-pick-btn">Select Service</button>
+      </div>
+    </div>
+    <div class="service-card" onclick="selectService('Massage')">
+      <img src="IMG_2891.jpeg" alt="Massage" />
+      <div class="service-card-content">
+        <div class="service-icon">🤍</div>
+        <h3 class="service-name">Massage</h3>
+        <p class="service-detail">Therapeutic and relaxation massage tailored to your body's needs.</p>
+        <button class="service-pick-btn">Select Service</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 4 — BOOKING FORM -->
+<div id="page-booking" class="page">
+  <div class="section-header">
+    <p class="section-label">Step 03 of 03</p>
+    <h2 class="section-title" style="color:var(--black)">Complete Your <em>Booking</em></h2>
+  </div>
+  <div class="booking-layout">
+    <div class="booking-summary">
+      <div class="booking-summary-top">
+        <p class="summary-label">Booking Summary</p>
+        <div class="summary-item">
+          <div class="summary-item-key">Salon</div>
+          <div class="summary-item-val" id="sum-salon">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-key">Service</div>
+          <div class="summary-item-val" id="sum-service">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-key">Date</div>
+          <div class="summary-item-val" id="sum-date">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-key">Time</div>
+          <div class="summary-item-val" id="sum-time">—</div>
+        </div>
+      </div>
+      <p class="booking-quote">"Your beauty is not defined by what you see in the mirror, but by how you feel within."</p>
+    </div>
+    <div class="booking-form-wrap">
+      <h3 class="form-section-title">Your Details</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="f-first" placeholder="Sarah" oninput="updateSummary()" />
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="f-last" placeholder="Johnson" oninput="updateSummary()" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="f-email" placeholder="sarah@email.com" />
+      </div>
+      <div class="divider"></div>
+      <h3 class="form-section-title">Select Date & Time</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Year</label>
+          <div class="select-wrap">
+            <select id="f-year" onchange="updateDays(); updateSummary()">
+              <option value="">— Select Year —</option>
+              <option value="2025">2025</option>
+              <option value="2026" selected>2026</option>
+              <option value="2027">2027</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Month</label>
+          <div class="select-wrap">
+            <select id="f-month" onchange="updateDays(); updateSummary()">
+              <option value="">— Select Month —</option>
+              <option value="01">January</option><option value="02">February</option>
+              <option value="03">March</option><option value="04">April</option>
+              <option value="05">May</option><option value="06">June</option>
+              <option value="07">July</option><option value="08">August</option>
+              <option value="09">September</option><option value="10">October</option>
+[17/11/47 10:17 م] S: <option value="11">November</option><option value="12">December</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Day</label>
+        <div class="select-wrap">
+          <select id="f-day" onchange="updateSummary()">
+            <option value="">— Select Day —</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Available Times</label>
+        <div class="time-grid" id="time-grid"></div>
+      </div>
+      <div class="divider"></div>
+      <button class="submit-btn" onclick="submitBooking()">Confirm Reservation</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 5 — CONFIRMATION -->
+<div id="page-confirm" class="page">
+  <div class="confirm-icon">✓</div>
+  <p class="confirm-label">Booking Confirmed</p>
+  <h2 class="confirm-title">Thank You,<br><em id="conf-name">—</em></h2>
+  <p class="confirm-sub">
+    Your appointment has been reserved. A confirmation will be sent to your email. We look forward to welcoming you.
+  </p>
+  <div class="confirm-details">
+    <div class="confirm-detail-item">
+      <div class="confirm-detail-key">Salon</div>
+      <div class="confirm-detail-val" id="conf-salon">—</div>
+    </div>
+    <div class="confirm-detail-item">
+      <div class="confirm-detail-key">Service</div>
+      <div class="confirm-detail-val" id="conf-service">—</div>
+    </div>
+    <div class="confirm-detail-item">
+      <div class="confirm-detail-key">Date</div>
+      <div class="confirm-detail-val" id="conf-date">—</div>
+    </div>
+    <div class="confirm-detail-item">
+      <div class="confirm-detail-key">Time</div>
+      <div class="confirm-detail-val" id="conf-time">—</div>
+    </div>
+  </div>
+  <button class="btn-home" onclick="goTo('home')">Return to Home</button>
+</div>
+
+<script>
+  const state = { salon: '', service: '', time: '' };
+
+  const times = [
+    '9:00 AM','9:30 AM','10:00 AM','10:30 AM',
+    '11:00 AM','11:30 AM','12:00 PM','12:30 PM',
+    '1:00 PM','1:30 PM','2:00 PM','2:30 PM',
+    '3:00 PM','3:30 PM','4:00 PM','4:30 PM',
+    '5:00 PM','5:30 PM','6:00 PM','6:30 PM'
+  ];
+  const disabledTimes = ['9:30 AM','11:00 AM','2:00 PM','4:30 PM','6:00 PM'];
+
+  const navDarkPages = ['home','services','confirm'];
+  function setNav(pageId) {
+    document.getElementById('main-nav').className =
+      navDarkPages.includes(pageId) ? 'dark' : 'light';
+  }
+
+  function goTo(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + pageId).classList.add('active');
+    setNav(pageId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function scrollToAbout() {
+    document.getElementById('about-strip').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function selectSalon(name) {
+    state.salon = name;
+    document.getElementById('services-chosen-label').textContent = 'You selected: ' + name;
+    goTo('services');
+  }
+
+  function selectService(name) {
+    state.service = name;
+    document.getElementById('sum-salon').textContent = state.salon;
+    document.getElementById('sum-service').textContent = name;
+    buildTimeGrid();
+    updateDays();
+    goTo('booking');
+  }
+
+  function buildTimeGrid() {
+    const grid = document.getElementById('time-grid');
+    grid.innerHTML = '';
+    state.time = '';
+    times.forEach(t => {
+      const btn = document.createElement('button');
+      btn.className = 'time-slot' + (disabledTimes.includes(t) ? ' disabled' : '');
+      btn.textContent = t;
+      btn.onclick = () => {
+        document.querySelectorAll('.time-slot').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        state.time = t;
+        updateSummary();
+      };
+      grid.appendChild(btn);
+    });
+  }
+
+  function updateDays() {
+    const y = parseInt(document.getElementById('f-year').value) || 2026;
+    const m = parseInt(document.getElementById('f-month').value) || 1;
+    const days = new Date(y, m, 0).getDate();
+    const sel = document.getElementById('f-day');
+    sel.
+ innerHTML = '<option value="">— Select Day —</option>';
+    for (let d = 1; d <= days; d++) {
+      const o = document.createElement('option');
+      o.value = String(d).padStart(2,'0');
+      o.textContent = d;
+      sel.appendChild(o);
+    }
+  }
+
+  function updateSummary() {
+    const y = document.getElementById('f-year').value;
+    const m = document.getElementById('f-month').value;
+    const d = document.getElementById('f-day').value;
+    if (y && m && d) {
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      document.getElementById('sum-date').textContent = d + ' ' + months[parseInt(m)-1] + ' ' + y;
+    } else {
+      document.getElementById('sum-date').textContent = '—';
+    }
+    document.getElementById('sum-time').textContent = state.time || '—';
+  }
+
+  function submitBooking() {
+    const first = document.getElementById('f-first').value.trim();
+    const last  = document.getElementById('f-last').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const y = document.getElementById('f-year').value;
+    const m = document.getElementById('f-month').value;
+    const d = document.getElementById('f-day').value;
+
+    if (!first || !last || !email || !y || !m || !d || !state.time) {
+      alert('Please fill in all fields and select a time slot.');
+      return;
+    }
+    if (!email.includes('@')) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    const months = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+    const dateStr = d + ' ' + months[parseInt(m)-1] + ' ' + y;
+
+    document.getElementById('conf-name').textContent    = first + ' ' + last;
+    document.getElementById('conf-salon').textContent   = state.salon;
+    document.getElementById('conf-service').textContent = state.service;
+    document.getElementById('conf-date').textContent    = dateStr;
+    document.getElementById('conf-time').textContent    = state.time;
+
+    goTo('confirm');
+  }
+
+  buildTimeGrid();
+  updateDays();
+</script>
+</body>
+</html>
